@@ -1,0 +1,15 @@
+<div class="flex">
+  <span class="mt-2 text-sm text-center">{{ user ? user.firstName + ' ' + user.lastName : 'Guest' }}</span>
+  
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="ml-1">
+    <img *ngIf="user && user.profileImage" [src]="user.profileImage.url" alt="Profile" class="rounded-full">
+    <img *ngIf="!user || !user.profileImage" alt="Profile" class="rounded-full" src="user-profile.jpg">
+  </button>
+  
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item *ngIf="!user" (click)="openLoginDialog()">Login | Register</button>
+    <button mat-menu-item *ngIf="user" (click)="logout()">Logout</button>
+  </mat-menu>
+</div>
+
+

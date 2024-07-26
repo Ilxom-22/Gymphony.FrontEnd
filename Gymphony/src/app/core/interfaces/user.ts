@@ -9,5 +9,5 @@ export interface User {
     role: Role;
     status: AccountStatus;
     emailAddress: string;
-    profileImage: UserProfileImage;
+    profileImage?: UserProfileImage;
 }
