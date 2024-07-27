@@ -6,6 +6,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { alphabeticValidator } from '../../../../shared/validators/alphabetic-validator';
 import { passwordValidator } from '../../../../shared/validators/password-validator';
 import { ModalService } from '../../services/modal.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-register-modal',
@@ -13,7 +14,7 @@ import { ModalService } from '../../services/modal.service';
   styleUrl: './register-modal.component.css'
 })
 export class RegisterModalComponent {
-  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  public passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
 
     const formGroup = control as FormGroup;
     const password = formGroup.get('authData')?.value;
@@ -32,15 +33,17 @@ export class RegisterModalComponent {
 
   constructor(private modalService: ModalService, private authService: AuthService) { }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.registerForm.valid) {
       const signUpDetails = this.registerForm.value as SignUpDetails;
-      this.authService.signUp(signUpDetails).subscribe(response => response);
+      this.authService.signUp(signUpDetails).pipe(
+        tap(() => this.modalService.closeAllModals()),
+      )
+      .subscribe(response => response);
     }
   }
 
-  openLoginModal() {
+  public openLoginModal(): void {
     this.modalService.showLoginModal();
   }
-
 }

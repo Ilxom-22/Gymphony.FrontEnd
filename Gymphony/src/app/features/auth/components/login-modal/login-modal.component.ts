@@ -1,9 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SignInDetails } from '../../interfaces/sign-in-details.interface';
 import { ModalService } from '../../services/modal.service';
-import { catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 
 
@@ -32,7 +32,7 @@ export class LoginModalComponent {
     }
   }
 
-  openRegisterModal() {
+  public openRegisterModal(): void {
     this.modalService.showRegisterModal();
   }
 }
