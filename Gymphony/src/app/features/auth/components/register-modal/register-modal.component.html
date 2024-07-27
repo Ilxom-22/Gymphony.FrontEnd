@@ -66,7 +66,7 @@
         <mat-form-field appearance="fill" class="w-full mb-4">
             <mat-label>Confirm Password</mat-label>
             <input matInput formControlName="confirmPassword" type="password">
-            @if (registerForm.get('ConfirmPassword')?.hasError('mismatch')) {
+            @if (registerForm.get('confirmPassword')?.hasError('mismatch')) {
                 <mat-error>Passwords do not match.</mat-error>
             }
         </mat-form-field>
