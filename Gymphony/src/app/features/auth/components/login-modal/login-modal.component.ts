@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
+
 import { AuthService } from '../../services/auth.service';
 import { SignInDetails } from '../../interfaces/sign-in-details.interface';
 import { ModalService } from '../../services/modal.service';
-import { tap } from 'rxjs';
-
 
 
 @Component({

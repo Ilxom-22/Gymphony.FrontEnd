@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+
 import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 import { RegisterModalComponent } from '../components/register-modal/register-modal.component';
-import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Injectable({

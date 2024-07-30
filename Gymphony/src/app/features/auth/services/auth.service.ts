@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, catchError, tap, switchMap } from 'rxjs';
+
 import { SignUpDetails } from '../interfaces/sign-up-details.interface';
 import { User } from '../../../core/interfaces/user';
 import { SignInDetails } from '../interfaces/sign-in-details.interface';

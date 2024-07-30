@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { tap } from 'rxjs';
+
 import { AuthService } from '../../services/auth.service';
 import { SignUpDetails } from '../../interfaces/sign-up-details.interface';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { alphabeticValidator } from '../../../../shared/validators/alphabetic-validator';
 import { passwordValidator } from '../../../../shared/validators/password-validator';
 import { ModalService } from '../../services/modal.service';
-import { tap } from 'rxjs';
+
 
 @Component({
   selector: 'app-register-modal',

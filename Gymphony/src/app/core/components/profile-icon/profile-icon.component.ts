@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import { User } from '../../interfaces/user';
 import { ModalService } from '../../../features/auth/services/modal.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
