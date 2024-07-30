@@ -6,12 +6,10 @@ import { AuthService } from './features/auth/services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'Gymphony';
-
+export class AppComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   public ngOnInit() {
-    this.authService.getCurrentLoggedInUser().subscribe(response => response);
+    this.authService.getCurrentLoggedInUser().subscribe();
   }
 }

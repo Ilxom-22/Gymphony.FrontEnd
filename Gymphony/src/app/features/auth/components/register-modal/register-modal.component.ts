@@ -17,32 +17,33 @@ import { ModalService } from '../../services/modal.service';
 })
 export class RegisterModalComponent {
   public passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-
-    const formGroup = control as FormGroup;
-    const password = formGroup.get('authData')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    const formGroup: FormGroup = control as FormGroup;
+    const password: any = formGroup.get('authData')?.value;
+    const confirmPassword: any = formGroup.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { mismatch: true };
   };
 
-  registerForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(64), alphabeticValidator()]),
-    lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(64), alphabeticValidator()]),
-    emailAddress: new FormControl('', [Validators.required, Validators.email]),
-    authData: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(32), passwordValidator()]),
-    confirmPassword: new FormControl('', [Validators.required])},
+  public registerForm: FormGroup = new FormGroup({
+    firstName: new FormControl<string>('', [Validators.required, Validators.minLength(2), Validators.maxLength(64), alphabeticValidator()]),
+    lastName: new FormControl<string>('', [Validators.required, Validators.minLength(2), Validators.maxLength(64), alphabeticValidator()]),
+    emailAddress: new FormControl<string>('', [Validators.required, Validators.email]),
+    authData: new FormControl<string>('', [Validators.required, Validators.minLength(8), Validators.maxLength(32), passwordValidator()]),
+    confirmPassword: new FormControl<string>('', [Validators.required])},
     { validators: this.passwordMatchValidator }
   );
 
   constructor(private modalService: ModalService, private authService: AuthService) { }
 
   public onSubmit(): void {
-    if (this.registerForm.valid) {
-      const signUpDetails = this.registerForm.value as SignUpDetails;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    const signUpDetails: SignUpDetails = this.registerForm.value as SignUpDetails;
       this.authService.signUp(signUpDetails).pipe(
         tap(() => this.modalService.closeAllModals()),
       )
-      .subscribe(response => response);
-    }
+      .subscribe();
   }
 
   public openLoginModal(): void {

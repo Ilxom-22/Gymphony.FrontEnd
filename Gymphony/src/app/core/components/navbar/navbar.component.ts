@@ -10,10 +10,12 @@ import { Observable, of } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
-  public user?: User;
+export class NavbarComponent implements OnInit {
+  public $user?: Observable<User | null>;
 
-  constructor(private userService: UserService) {
-    this.userService.$user.subscribe(user => this.user = user);
+  constructor(private userService: UserService) { }
+
+  public ngOnInit(): void {
+    this.$user = this.userService.$user;
   }
 }

@@ -11,20 +11,19 @@ import { JwtService } from "../services/jwt.service";
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private jwtService: JwtService) { }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let accessToken = this.jwtService.getAccessToken();
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let accessToken: string | null = this.jwtService.getAccessToken();
 
-        if (accessToken) {
-            const clonedReq = req.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            
-            return next.handle(clonedReq);
+        if (!accessToken) {
+            return next.handle(req);
         }
 
-        return next.handle(req);
+        const clonedReq: HttpRequest<any> = req.clone({
+            setHeaders: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        
+        return next.handle(clonedReq);
     }
-
 }

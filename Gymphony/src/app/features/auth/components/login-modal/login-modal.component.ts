@@ -13,23 +13,23 @@ import { ModalService } from '../../services/modal.service';
   styleUrl: './login-modal.component.css'
 })
 export class LoginModalComponent {
-  loginForm = new FormGroup({
-    emailAddress: new FormControl('', [Validators.required, Validators.email]),
-    authData: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(32)])
+  public loginForm: FormGroup = new FormGroup({
+    emailAddress: new FormControl<string>('', [Validators.required, Validators.email]),
+    authData: new FormControl<string>('', [Validators.required, Validators.minLength(8), Validators.maxLength(32)])
   });
 
-  constructor(
-    private modalService: ModalService,
-    private authService: AuthService) { }
+  constructor(private modalService: ModalService, private authService: AuthService) { }
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      const signInDetails = this.loginForm.value as SignInDetails;
+  public onSubmit(): void {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const signInDetails: SignInDetails = this.loginForm.value as SignInDetails;
       this.authService.signIn(signInDetails).pipe(
         tap(() => this.modalService.closeAllModals()),
       )
-      .subscribe(response => response);
-    }
+      .subscribe();
   }
 
   public openRegisterModal(): void {

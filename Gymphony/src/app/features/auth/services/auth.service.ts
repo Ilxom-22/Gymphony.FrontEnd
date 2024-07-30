@@ -46,11 +46,11 @@ export class AuthService {
     return null;
   }
 
-  public logout() {
+  public logout(): Observable<object> {
     return this.http.post(`${this.apiUrl}/auth/log-out`, null)
       .pipe(tap(() => {
         this.jwtService.clearTokens();
-        this.userService.removeUser();
+        this.userService.setUser(null);
       }));
   }
 

@@ -10,16 +10,15 @@ import { AuthService } from '../../../features/auth/services/auth.service';
   styleUrl: './profile-icon.component.css'
 })
 export class ProfileIconComponent {
+  @Input() user?: User;
 
   constructor(private modalService: ModalService, private authService: AuthService) { }
   
-  @Input() user?: User;
-
-  public openLoginDialog() {
+  public openLoginDialog(): void {
     this.modalService.showLoginModal();
   }
 
-  public logout() {
-    this.authService.logout().subscribe(response => response);
+  public logout(): void {
+    this.authService.logout().subscribe();
   }
 }
