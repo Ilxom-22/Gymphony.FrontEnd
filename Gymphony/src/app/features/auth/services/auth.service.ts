@@ -8,6 +8,7 @@ import { SignInDetails } from '../interfaces/sign-in-details.interface';
 import { IdentityToken } from '../interfaces/identity-token.interface';
 import { UserService } from '../../../core/services/user.service';
 import { JwtService } from '../../../core/services/jwt.service';
+import { PasswordReset } from '../interfaces/password-reset.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,18 @@ export class AuthService {
         this.jwtService.clearTokens();
         this.userService.setUser(null);
       }));
+  }
+
+  public verifyAccount(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } );
+  }
+
+  public forgotPassword(emailAddress: string) {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password/${emailAddress}`, null);
+  }
+
+  public resetPassword(passwordReset: PasswordReset) {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
