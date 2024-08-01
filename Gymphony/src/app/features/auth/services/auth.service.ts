@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, catchError, tap, switchMap } from 'rxjs';
 
@@ -19,31 +19,28 @@ export class AuthService {
 
   public signUp(signUpDetails: SignUpDetails): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/auth/sign-up-by-email`, signUpDetails)
-      .pipe(
-        tap((user: User) => this.userService.setUser(user)),
-        catchError(this.handleError<User>('sign up'))
-      );
+      .pipe(catchError(this.handleError<User>('sign-up')));
   }
 
   public signIn(signInDetails: SignInDetails): Observable<User> {
     return this.http.post<IdentityToken>(`${this.apiUrl}/auth/sign-in-by-email`, signInDetails)
       .pipe(tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
         switchMap(() => this.getCurrentLoggedInUser()),
-        catchError(this.handleError<User>('sign in')));
+        catchError(this.handleError<User>('sign-in')));
   }
 
   public getCurrentLoggedInUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/auth/me`)
       .pipe(tap((user: User) => this.userService.setUser(user)),
-        catchError(this.handleError<User>('getCurrentLoggedInUser')));
+        catchError(this.handleError<User>('get current logged-in user')));
   }
 
-  public autoLogIn(): Observable<User> | null {
+  public autoLogIn(): Observable<User | null> {
     if (this.jwtService.accessTokenExists()) {
       return this.getCurrentLoggedInUser();
     }
 
-    return null;
+    return of(null);
   }
 
   public logout(): Observable<object> {
