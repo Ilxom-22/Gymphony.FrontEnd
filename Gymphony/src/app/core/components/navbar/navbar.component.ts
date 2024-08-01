@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
-import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  userService = inject(UserService);
+  private userService = inject(UserService);
 
   public user$: Observable<User | null> = this.userService.$user;
 }

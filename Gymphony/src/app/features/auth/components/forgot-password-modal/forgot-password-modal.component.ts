@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
+
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
-import { tap } from 'rxjs';
+
 
 @Component({
   selector: 'app-forgot-password-modal',
@@ -16,13 +18,13 @@ export class ForgotPasswordModalComponent {
 
   constructor(private modalService: ModalService, private authService: AuthService) { }
 
-  public onSubmit() {
+  public onSubmit(): void {
     this.authService.forgotPassword(this.emailForm.controls['emailAddress'].value)
       .pipe(tap(() => this.modalService.closeAllModals()))
       .subscribe();
   }
 
-  public onClose() {
+  public onClose(): void {
     this.modalService.closeAllModals();
   }
 }
