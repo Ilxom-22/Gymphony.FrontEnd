@@ -1,0 +1,9 @@
+<div class="p-6">
+    <h3 *ngIf="header" class="text-lg font-semibold">{{ header }}</h3>
+    <div class="mt-4">{{ message }}</div>
+
+    <div class="flex justify-end mt-6">
+    <button mat-button class="mr-2" (click)="onCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onOk()">Ok</button>
+    </div>
+</div>
