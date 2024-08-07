@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
-import { courseSubscriptionsResolver } from './course-subscriptions.resolver';
+import { userProfileResolver } from './user-profile.resolver';
 
-describe('courseSubscriptionsResolver', () => {
+describe('userProfileResolver', () => {
   const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => courseSubscriptionsResolver(...resolverParameters));
+      TestBed.runInInjectionContext(() => userProfileResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
