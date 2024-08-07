@@ -1,4 +1,4 @@
-<div class="flex items-center justify-center h-screen">
+<div *ngIf="user$ | async as user" class="flex items-center justify-center h-screen">
     <div class="grid w-full h-screen grid-cols-3 gap-8 p-4">
       
       <mat-card class="h-full col-span-1">
@@ -8,19 +8,22 @@
       </mat-card>
       
       <div class="col-span-2 space-y-8">
-        <app-user-information *ngIf="user$ | async as user" [user]="user"></app-user-information>
+        <app-user-information [user]="user"></app-user-information>
         
-        <mat-card>
-          <mat-card-content>
-            <app-course-subscriptions-container></app-course-subscriptions-container>
-          </mat-card-content>
-        </mat-card>
+        @if(user.role == 'Member') {
+          <mat-card>
+            <mat-card-content>
+              <app-course-subscriptions-container></app-course-subscriptions-container>
+            </mat-card-content>
+          </mat-card>
+          
+          <mat-card>
+            <mat-card-content>
+              <app-membership-plan-subscription></app-membership-plan-subscription>
+            </mat-card-content>
+          </mat-card>
+        }
         
-        <mat-card>
-          <mat-card-content>
-            <app-membership-plan-subscription></app-membership-plan-subscription>
-          </mat-card-content>
-        </mat-card>
       </div>
       
     </div>
