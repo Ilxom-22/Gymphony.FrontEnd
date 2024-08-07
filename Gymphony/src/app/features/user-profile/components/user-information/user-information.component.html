@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-content>
+    <div class="flex flex-col gap-5">
+      <h4>User Information</h4>
+      <p><strong>Email Address:</strong> {{ user.emailAddress }}</p>
+  
+      @if (user.role == 'Admin' && !user.temporaryPasswordChanged) {
+        <p class="mt-5 text-red-600">Change your temporary password to avoid security risks.</p>
+      }
+     
+      <button mat-stroked-button color="primary" (click)="openChangePasswordDialog()">
+        Change Password
+      </button>
+      <button mat-stroked-button color="warn" (click)="logOut()">
+          Log Out
+        </button>
+    </div>
+  </mat-card-content>
+</mat-card>
+  

@@ -10,7 +10,7 @@ import { AuthService } from '../../../features/auth/services/auth.service';
   styleUrl: './profile-icon.component.css'
 })
 export class ProfileIconComponent {
-  @Input() user?: User;
+  @Input() user?: User | null;
 
   constructor(private modalService: ModalService, private authService: AuthService) { }
   

@@ -15,6 +15,8 @@
         <mat-error *ngIf="loginForm.get('authData')?.hasError('minlength')">Password must be at least 6 characters long</mat-error>
       </mat-form-field>
   
+      <button type="button" class="mt-4 text-blue-500" (click)="openForgotPasswordModal()">Forgot Password?</button>
+      
       <div class="flex justify-between">
         <button type="button" class="mt-4 text-blue-500" (click)="openRegisterModal()">Don't have an account? Register</button>
         <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>

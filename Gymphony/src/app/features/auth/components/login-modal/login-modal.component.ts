@@ -35,4 +35,8 @@ export class LoginModalComponent {
   public openRegisterModal(): void {
     this.modalService.showRegisterModal();
   }
+
+  public openForgotPasswordModal(): void {
+    this.modalService.showForgotPasswordModal();
+  }
 }
