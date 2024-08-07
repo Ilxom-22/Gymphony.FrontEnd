@@ -8,11 +8,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
   declarations: [
-
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule,
@@ -23,8 +27,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatDialogModule
-  
+    MatDialogModule,
+    MatCardModule,
+    MatDividerModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -34,7 +39,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule,
+    MatDividerModule
   ]
 })
 export class SharedModule { }
