@@ -9,5 +9,6 @@ export interface User {
     role: Role;
     status: AccountStatus;
     emailAddress: string;
+    temporaryPasswordChanged: boolean;
     profileImage?: UserProfileImage;
 }
