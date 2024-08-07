@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
-import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -10,12 +10,8 @@ import { Observable, of } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
-  public $user?: Observable<User | null>;
+export class NavbarComponent {
+  private userService = inject(UserService);
 
-  constructor(private userService: UserService) { }
-
-  public ngOnInit(): void {
-    this.$user = this.userService.$user;
-  }
+  public user$: Observable<User | null> = this.userService.$user;
 }
