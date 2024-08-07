@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, catchError, tap, switchMap } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { SignInDetails } from '../interfaces/sign-in-details.interface';
 import { IdentityToken } from '../interfaces/identity-token.interface';
 import { UserService } from '../../../core/services/user.service';
 import { JwtService } from '../../../core/services/jwt.service';
+import { PasswordReset } from '../interfaces/password-reset.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,31 +20,28 @@ export class AuthService {
 
   public signUp(signUpDetails: SignUpDetails): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/auth/sign-up-by-email`, signUpDetails)
-      .pipe(
-        tap((user: User) => this.userService.setUser(user)),
-        catchError(this.handleError<User>('sign up'))
-      );
+      .pipe(catchError(this.handleError<User>('sign-up')));
   }
 
   public signIn(signInDetails: SignInDetails): Observable<User> {
     return this.http.post<IdentityToken>(`${this.apiUrl}/auth/sign-in-by-email`, signInDetails)
       .pipe(tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
         switchMap(() => this.getCurrentLoggedInUser()),
-        catchError(this.handleError<User>('sign in')));
+        catchError(this.handleError<User>('sign-in')));
   }
 
   public getCurrentLoggedInUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/auth/me`)
       .pipe(tap((user: User) => this.userService.setUser(user)),
-        catchError(this.handleError<User>('getCurrentLoggedInUser')));
+        catchError(this.handleError<User>('get current logged-in user')));
   }
 
-  public autoLogIn(): Observable<User> | null {
+  public autoLogIn(): Observable<User | null> {
     if (this.jwtService.accessTokenExists()) {
       return this.getCurrentLoggedInUser();
     }
 
-    return null;
+    return of(null);
   }
 
   public logout(): Observable<object> {
@@ -52,6 +50,18 @@ export class AuthService {
         this.jwtService.clearTokens();
         this.userService.setUser(null);
       }));
+  }
+
+  public verifyAccount(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } );
+  }
+
+  public forgotPassword(emailAddress: string) {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password/${emailAddress}`, null);
+  }
+
+  public resetPassword(passwordReset: PasswordReset) {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

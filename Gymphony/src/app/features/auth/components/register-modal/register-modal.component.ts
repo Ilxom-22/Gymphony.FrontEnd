@@ -8,6 +8,8 @@ import { SignUpDetails } from '../../interfaces/sign-up-details.interface';
 import { alphabeticValidator } from '../../../../shared/validators/alphabetic-validator';
 import { passwordValidator } from '../../../../shared/validators/password-validator';
 import { ModalService } from '../../services/modal.service';
+import { Router } from '@angular/router';
+import { SignInDetails } from '../../interfaces/sign-in-details.interface';
 
 
 @Component({
@@ -32,7 +34,10 @@ export class RegisterModalComponent {
     { validators: this.passwordMatchValidator }
   );
 
-  constructor(private modalService: ModalService, private authService: AuthService) { }
+  constructor(
+    private modalService: ModalService, 
+    private authService: AuthService,
+    private router: Router) { }
 
   public onSubmit(): void {
     if (this.registerForm.invalid) {
@@ -41,7 +46,13 @@ export class RegisterModalComponent {
 
     const signUpDetails: SignUpDetails = this.registerForm.value as SignUpDetails;
       this.authService.signUp(signUpDetails).pipe(
-        tap(() => this.modalService.closeAllModals()),
+        tap(() => {
+          const signInDetails: SignInDetails = signUpDetails as SignInDetails;
+          
+          this.authService.signIn(signInDetails).subscribe()
+          this.modalService.closeAllModals();
+          this.router.navigate(['/home']);
+        }),
       )
       .subscribe();
   }
