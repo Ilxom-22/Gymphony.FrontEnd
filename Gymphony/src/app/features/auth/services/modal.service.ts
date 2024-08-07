@@ -5,6 +5,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 import { RegisterModalComponent } from '../components/register-modal/register-modal.component';
 import { ForgotPasswordModalComponent } from '../components/forgot-password-modal/forgot-password-modal.component';
+import { ChangePasswordModalComponent } from '../../user-profile/components/change-password-modal/change-password-modal.component';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 
 @Injectable({
@@ -34,6 +36,22 @@ export class ModalService {
 
     return dialogRef;
   }
+
+  public showChangePasswordModal(): MatDialogRef<ChangePasswordModalComponent, any> {
+    this.closeAllModals();
+    const dialogRef = this.dialog.open(ChangePasswordModalComponent);
+
+    return dialogRef;
+  }
+
+  public showConfirmationModal(message: string, header?: string): MatDialogRef<ConfirmationModalComponent, any> {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data: { header, message }
+    });
+
+    return dialogRef;
+  }
+
 
   public closeAllModals(): void {
     this.dialog.closeAll();
