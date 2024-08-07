@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { tap } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 
 import { PaymentService } from '../../../../core/services/payment.service';
 import { MembershipPlanSubscription } from '../../interfaces/membership-plan-subscription.interface';
-import { SubscriptionsService } from '../../services/subscriptions.service';
+import { UserProfileService } from '../../services/user-profile.service';
 
 
 @Component({
@@ -12,18 +12,10 @@ import { SubscriptionsService } from '../../services/subscriptions.service';
   styleUrl: './membership-plan-subscription.component.css'
 })
 export class MembershipPlanSubscriptionComponent {
-  public subscription: MembershipPlanSubscription | null = null;
+  private userProfileService: UserProfileService = inject(UserProfileService);
+  public subscription$: Observable<MembershipPlanSubscription | null> = this.userProfileService.membershipPlanSubscription$;
 
-  constructor(
-    private subscriptionsService: SubscriptionsService,
-    private paymentService: PaymentService) {}
-
-  public ngOnInit(): void {
-    this.subscriptionsService.getMyMembershipPlanSubscription()
-      .pipe(
-        tap((subscription: MembershipPlanSubscription | null) => this.subscription = subscription))
-      .subscribe(); 
-  }
+  constructor(private paymentService: PaymentService) {}
 
   public openBillingPortal(): void {
     this.paymentService.getBillingPortalUrl(window.location.href).pipe(
