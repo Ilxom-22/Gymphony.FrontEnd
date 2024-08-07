@@ -11,8 +11,6 @@ export class UserService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public $user: Observable<User | null> = this.userSubject.asObservable();
 
-  constructor() { }
-
   public isLoggedIn(): boolean {
     if (this.userSubject.value) {
       return true;

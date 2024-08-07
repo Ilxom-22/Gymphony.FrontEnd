@@ -3,7 +3,8 @@
     <button mat-stroked-button color="primary" (click)="openBillingPortal()">Billing Portal</button>
 </div>
 
-@if(subscriptions.length > 0) {
+
+@if(subscriptions$ | async; as subscriptions) {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @for(subscription of subscriptions; track subscription.id) {
             <app-course-subscription [subscription]="subscription"></app-course-subscription>

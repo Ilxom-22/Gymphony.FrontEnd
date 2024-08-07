@@ -3,7 +3,7 @@
     <button mat-stroked-button color="primary" (click)="openBillingPortal()">Billing Portal</button>
 </div>
 
-@if(subscription) {
+@if(subscription$ | async; as subscription) {
     <mat-card class="bg-blue-100 w-fit hover:bg-slate-100">
         <mat-card-content>
             <h6><strong>{{ subscription.membershipPlan.name }}</strong></h6>
