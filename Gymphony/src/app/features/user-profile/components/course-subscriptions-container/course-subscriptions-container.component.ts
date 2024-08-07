@@ -1,29 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { tap } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 
 import { PaymentService } from '../../../../core/services/payment.service';
 import { CourseSubscription } from '../../interfaces/course-subscription.interface';
-import { SubscriptionsService } from '../../services/subscriptions.service';
+import { UserProfileService } from '../../services/user-profile.service';
 
 @Component({
   selector: 'app-course-subscriptions-container',
   templateUrl: './course-subscriptions-container.component.html',
   styleUrl: './course-subscriptions-container.component.css'
 })
-export class CourseSubscriptionsContainerComponent implements OnInit {
-  public subscriptions: CourseSubscription[] = [];
+export class CourseSubscriptionsContainerComponent {
+  private userProfileService = inject(UserProfileService);
+  public subscriptions$: Observable<CourseSubscription[] | null> = this.userProfileService.courseSubscriptions$;
 
-  constructor(private paymentService: PaymentService, private subscriptionsService: SubscriptionsService) { }
-
-  public ngOnInit(): void {
-    this.subscriptionsService.getMyCourseSubscriptions()
-      .pipe(tap((courseSubscriptions: CourseSubscription[] | null) => {
-          if (courseSubscriptions) {
-            this.subscriptions = courseSubscriptions;
-          }
-      }))
-      .subscribe();
-  }
+  constructor(private paymentService: PaymentService) { }
 
   public openBillingPortal(): void {
     this.paymentService.getBillingPortalUrl(window.location.href).pipe(
