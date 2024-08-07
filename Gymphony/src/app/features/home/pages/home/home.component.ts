@@ -11,17 +11,6 @@ import { User } from '../../../../core/interfaces/user';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
-
-  constructor(private authService: AuthService, private modalService: ModalService) { }
-
-  public ngOnInit(): void {
-    this.authService.autoLogIn()
-      .pipe(tap((response: User | null) => {
-        if (response === null) {
-          this.modalService.showLoginModal();
-        }
-      }))
-      .subscribe();
-  }
+export class HomeComponent {
+  
 }

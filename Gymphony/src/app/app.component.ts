@@ -11,7 +11,15 @@ import { User } from './core/interfaces/user';
 })
 export class AppComponent implements OnInit {
   
-  public ngOnInit() {
-    
+  constructor(private authService: AuthService, private modalService: ModalService) { }
+
+  public ngOnInit(): void {
+    this.authService.autoLogIn()
+      .pipe(tap((response: User | null) => {
+        if (response === null) {
+          this.modalService.showLoginModal();
+        }
+      }))
+      .subscribe();
   }
 }
