@@ -1,0 +1,9 @@
+<div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
+    @for(plan of activatedPlans; track plan.id) {
+        <app-membership-plan [plan]="plan" [isActive]="true"></app-membership-plan>
+    }
+    
+    @for(plan of publishedPlans; track plan.id) {
+        <app-membership-plan [plan]="plan" [isActive]="false"></app-membership-plan>
+    }
+</div>
