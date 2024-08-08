@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { User } from '../interfaces/user';
-import { UserProfileImage } from '../interfaces/user-profile-image';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,5 @@ export class UserService {
 
   public setUser(user: User | null): void {
     this.userSubject.next(user);
-  }
-
-  public setUserProfileImage(profileImage: UserProfileImage): void {
-    const currentUser = this.userSubject.getValue();
-
-    if (currentUser) {
-      currentUser.profileImage = profileImage;
-      this.userSubject.next(currentUser);
-    }
   }
 }
