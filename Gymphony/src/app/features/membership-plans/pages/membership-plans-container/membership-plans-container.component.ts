@@ -15,9 +15,7 @@ export class MembershipPlansContainerComponent implements OnInit {
   public activatedPlans: MembershipPlan[] = [];
   public publishedPlans: MembershipPlan[] = [];
 
-  constructor(private membershipPlansService: MembershipPlansService) {
-
-  }
+  constructor(private membershipPlansService: MembershipPlansService) { }
 
   public ngOnInit(): void {
     this.membershipPlansService.getPublicMembershipPlans()
@@ -25,7 +23,7 @@ export class MembershipPlansContainerComponent implements OnInit {
         tap((plans: PublicMembershipPlans) => {
           this.activatedPlans = plans.activatedPlans;
           this.publishedPlans = plans.publishedPlans;
-          console.log(plans);
-        })).subscribe();
+        })
+      ).subscribe();
   }
 }

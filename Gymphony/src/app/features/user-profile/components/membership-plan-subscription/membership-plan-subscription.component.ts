@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
-import { PaymentService } from '../../../../core/services/payment.service';
+import { PaymentService } from '../../../payments/services/payment.service';
 import { MembershipPlanSubscription } from '../../interfaces/membership-plan-subscription.interface';
 import { UserProfileService } from '../../services/user-profile.service';
 
