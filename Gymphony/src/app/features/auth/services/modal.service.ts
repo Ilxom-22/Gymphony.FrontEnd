@@ -7,6 +7,7 @@ import { RegisterModalComponent } from '../components/register-modal/register-mo
 import { ForgotPasswordModalComponent } from '../components/forgot-password-modal/forgot-password-modal.component';
 import { ChangePasswordModalComponent } from '../../user-profile/components/change-password-modal/change-password-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { User } from '../../../core/interfaces/user';
 
 
 @Injectable({
@@ -37,9 +38,9 @@ export class ModalService {
     return dialogRef;
   }
 
-  public showChangePasswordModal(): MatDialogRef<ChangePasswordModalComponent, any> {
+  public showChangePasswordModal(user: User): MatDialogRef<ChangePasswordModalComponent, any> {
     this.closeAllModals();
-    const dialogRef = this.dialog.open(ChangePasswordModalComponent);
+    const dialogRef = this.dialog.open(ChangePasswordModalComponent, { data: { user } });
 
     return dialogRef;
   }

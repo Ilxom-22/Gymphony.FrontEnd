@@ -33,6 +33,6 @@ export class UserInformationComponent {
   }
 
   public openChangePasswordDialog(): void {
-    this.modalService.showChangePasswordModal();
+    this.modalService.showChangePasswordModal(this.user);
   }
 }
