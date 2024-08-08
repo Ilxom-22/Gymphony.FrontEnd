@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { filter, switchMap, tap } from 'rxjs';
 
 import { User } from '../../interfaces/user';
 import { ModalService } from '../../../features/auth/services/modal.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
+
 
 @Component({
   selector: 'app-profile-icon',
@@ -12,13 +15,23 @@ import { AuthService } from '../../../features/auth/services/auth.service';
 export class ProfileIconComponent {
   @Input() user?: User | null;
 
-  constructor(private modalService: ModalService, private authService: AuthService) { }
+  constructor(
+    private modalService: ModalService, 
+    private authService: AuthService,
+    private router: Router) { }
   
   public openLoginDialog(): void {
     this.modalService.showLoginModal();
   }
 
   public logout(): void {
-    this.authService.logout().subscribe();
+    const dialogRef = this.modalService.showConfirmationModal('Are you sure you want to log out?', 'Logout Confirmation');
+
+    dialogRef.afterClosed().pipe(
+      filter((result: boolean) => result),
+      switchMap(() => this.authService.logout()),
+      tap(() => this.router.navigate(['/home']))
+    )
+    .subscribe();
   }
 }

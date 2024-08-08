@@ -9,7 +9,7 @@ import { UserProfileImage } from '../interfaces/user-profile-image';
 })
 export class UserService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  public $user: Observable<User | null> = this.userSubject.asObservable();
+  public user$: Observable<User | null> = this.userSubject.asObservable();
 
   public isLoggedIn(): boolean {
     if (this.userSubject.value) {

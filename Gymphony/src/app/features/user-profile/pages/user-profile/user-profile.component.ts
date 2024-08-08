@@ -14,5 +14,5 @@ import { UserService } from '../../../../core/services/user.service';
 export class UserProfileComponent {
   private userService = inject(UserService);
 
-  public user$: Observable<User | null> = this.userService.$user;
+  public user$: Observable<User | null> = this.userService.user$;
 }

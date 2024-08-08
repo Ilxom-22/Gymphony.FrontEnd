@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -24,14 +24,12 @@ export class UserInformationComponent {
     const dialogRef = this.modalService.showConfirmationModal('Are you sure you want to log out?', 'Logout Confirmation');
 
     dialogRef.afterClosed()
-      .pipe(tap((result: boolean) => {
-          if (result) {
-            this.authService.logout()
-              .pipe(tap(() => this.router.navigate(['/home'])))
-              .subscribe();
-          }
-        })
-      ).subscribe();
+     .pipe(
+        filter((result: boolean) => result),
+        switchMap(() => this.authService.logout()),
+        tap(() => this.router.navigate(['/home']))
+     )
+     .subscribe();
   }
 
   public openChangePasswordDialog(): void {
