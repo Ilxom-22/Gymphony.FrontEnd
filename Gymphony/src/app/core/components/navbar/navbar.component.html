@@ -1,15 +1,14 @@
 <mat-toolbar color="primary">
     <div class="container flex items-center justify-between">
-      <!-- Title or Logo -->
-      <span class="text-xl font-bold">Gymphony</span>
+      <span class="text-xl font-bold text-white">Gymphony</span>
       
-      <!-- Navigation Links -->
       <nav class="flex ml-10 space-x-5">
         <a mat-button routerLink="/home">Home</a>
+        <a mat-button routerLink="/plans">Membership Plans</a>
       </nav>
-      
+
         <app-profile-icon [user]="user$ | async"></app-profile-icon>
     </div>
     
-  </mat-toolbar>
+</mat-toolbar>
   
