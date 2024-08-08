@@ -22,8 +22,8 @@ export class MembershipPlanComponent {
     const checkoutSession: CheckoutSession = {} as CheckoutSession;
     const subscribeForMembershipPlan: SubscribeForMembershipPlan = {
       membershipPlanId: this.plan.id,
-      successUrl: 'http://localhost:4200/plans',
-      cancelUrl: 'http://localhost:4200/home'
+      successUrl: `http://localhost:4200/payments/payment-successful?product=${this.plan.name}&productType=plan`,
+      cancelUrl: `http://localhost:4200/payments/payment-failed`
     };
 
     this.subscriptionsService.subscribeForMembershipPlan(subscribeForMembershipPlan)
