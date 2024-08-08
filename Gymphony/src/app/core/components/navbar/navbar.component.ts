@@ -13,5 +13,5 @@ import { User } from '../../interfaces/user';
 export class NavbarComponent {
   private userService = inject(UserService);
 
-  public user$: Observable<User | null> = this.userService.$user;
+  public user$: Observable<User | null> = this.userService.user$;
 }

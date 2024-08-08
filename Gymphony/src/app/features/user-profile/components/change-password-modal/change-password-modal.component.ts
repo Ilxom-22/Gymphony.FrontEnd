@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
@@ -16,7 +17,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrl: './change-password-modal.component.css'
 })
 export class ChangePasswordModalComponent {
-  @Input() user!: User;
+  public user!: User;
 
   public passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const formGroup: FormGroup = control as FormGroup;
@@ -35,10 +36,13 @@ export class ChangePasswordModalComponent {
   constructor(
     private modalService: ModalService, 
     private authService: AuthService, 
-    private userService: UserService) { }
+    private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public data: { user: User } ) {
+      this.user = data.user;
+    }
 
   public onSubmit(): void {
-    if (!this.changePasswordForm)
+    if (this.changePasswordForm.invalid)
       return;
 
     const changePassword: ChangePassword = this.changePasswordForm.value as ChangePassword;
@@ -46,8 +50,8 @@ export class ChangePasswordModalComponent {
     .pipe(
       tap(() => {
         this.modalService.closeAllModals();
-        // this.user.temporaryPasswordChanged = true;
-        // this.userService.setUser(this.user);
+        const updatedUser: User = { ...this.user, temporaryPasswordChanged: true};
+        this.userService.setUser(updatedUser);
       })
     )
     .subscribe();

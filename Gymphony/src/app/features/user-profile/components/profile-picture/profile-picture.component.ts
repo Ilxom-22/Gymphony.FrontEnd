@@ -46,7 +46,8 @@ export class ProfilePictureComponent {
         .pipe(
           tap((profileImage: UserProfileImage) => {
             if (profileImage) {
-              this.userService.setUserProfileImage(profileImage);
+              const updatedUser = { ...this.user, profileImage: profileImage };
+              this.userService.setUser(updatedUser);
             }
           })
         )
