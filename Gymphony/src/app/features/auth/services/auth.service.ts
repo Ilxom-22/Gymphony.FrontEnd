@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, catchError, tap, switchMap, throwError } from 'rxjs';
+import { Observable, of, catchError, tap, switchMap, throwError, empty, EMPTY } from 'rxjs';
 
 import { SignUpDetails } from '../interfaces/sign-up-details.interface';
 import { User } from '../../../core/interfaces/user';
@@ -34,6 +34,25 @@ export class AuthService {
       );
   }
 
+  public refreshToken(): Observable<User | null> {
+    if (!this.jwtService.refreshTokenExists()) {
+      return of(null);
+    }
+    
+    const refreshToken = this.jwtService.getRefreshToken();
+    return this.http.post<IdentityToken>(`${this.apiUrl}/auth/refresh-token`, { refreshToken })
+      .pipe(
+        tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
+        switchMap(() => this.getCurrentLoggedInUser()),
+        catchError((error: HttpErrorResponse) => {
+          this.jwtService.clearTokens();
+          this.handlerError(error);
+
+          return EMPTY;
+        })
+      );
+  }
+
   public getCurrentLoggedInUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/auth/me`)
       .pipe(
@@ -44,7 +63,9 @@ export class AuthService {
 
   public autoLogIn(): Observable<User | null> {
     if (this.jwtService.accessTokenExists()) {
-      return this.getCurrentLoggedInUser();
+      return this.getCurrentLoggedInUser().pipe(
+        catchError(() => this.refreshToken())
+      );
     }
 
     return of(null);
