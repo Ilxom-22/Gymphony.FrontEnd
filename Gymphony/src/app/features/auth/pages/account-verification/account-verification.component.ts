@@ -33,6 +33,7 @@ export class AccountVerificationComponent implements OnInit {
       tap(() => {
         this.verificationStatus = 'Verification successful!';
         this.isSuccess = true;
+        this.authService.autoLogIn().subscribe();
         setTimeout(() => this.router.navigate(['/home']), 5000);
       }),
       catchError(error => {
