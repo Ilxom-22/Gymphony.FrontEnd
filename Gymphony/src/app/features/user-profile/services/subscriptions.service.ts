@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EmptyError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 import { MembershipPlanSubscription } from '../interfaces/membership-plan-subscription.interface';
 import { CourseSubscription } from '../interfaces/course-subscription.interface';
@@ -18,10 +18,12 @@ export class SubscriptionsService {
 
   public getMyMembershipPlanSubscription() : Observable<MembershipPlanSubscription | null> {
     return this.http.get<MembershipPlanSubscription | null>(`${this.apiUrl}/subscriptions/my-membership-subscription`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public getMyCourseSubscriptions(): Observable<CourseSubscription[] | null> {
     return this.http.get<CourseSubscription[] | null>(`${this.apiUrl}/subscriptions/my-course-subscriptions`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public subscribeForMembershipPlan(subscribeForMembershipPlan: SubscribeForMembershipPlan): Observable<CheckoutSession> {
