@@ -1,0 +1,25 @@
+@if(isVisible && message) {
+  <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full p-4">
+    <div
+      class="w-full max-w-sm p-4 text-white rounded-lg shadow-lg"
+      [ngClass]="{
+        'bg-green-500': messageType === 'success',
+        'bg-red-500': messageType === 'error'
+      }"
+    >
+      <div class="flex items-center">
+        <i
+          [ngClass]="{
+            'fa-solid fa-circle-check': messageType === 'success',
+            'fas fa-times-circle': messageType === 'error'
+          }"
+          class="mr-3 text-2xl"
+        ></i>
+        <span>{{ message }}</span>
+      </div>
+    </div>
+  </div>
+}
+
+
+  
