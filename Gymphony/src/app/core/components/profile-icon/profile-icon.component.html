@@ -8,6 +8,7 @@
   
   <mat-menu #menu="matMenu">
     <button mat-menu-item *ngIf="!user" (click)="openLoginDialog()">Login | Register</button>
+    <button mat-menu-item *ngIf="user" routerLink="/profile">Profile</button>
     <button mat-menu-item *ngIf="user" (click)="logout()">Logout</button>
   </mat-menu>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, delay, EMPTY, switchMap, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -33,13 +33,15 @@ export class AccountVerificationComponent implements OnInit {
       tap(() => {
         this.verificationStatus = 'Verification successful!';
         this.isSuccess = true;
-        setTimeout(() => this.router.navigate(['/home']), 5000);
       }),
+      switchMap(() => this.authService.autoLogIn()),
+      delay(5000),
+      tap(() => this.router.navigate(['/home'])),
       catchError(error => {
         if (error.status === 400) {
           this.verificationStatus = 'Token expired or invalid.';
         } else {
-          this.verificationStatus = 'An error occured.'
+          this.verificationStatus = 'An unexpected error occured.'
         }
         this.isSuccess = false;
         return EMPTY;

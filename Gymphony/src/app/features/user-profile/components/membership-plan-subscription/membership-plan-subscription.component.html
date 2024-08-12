@@ -1,0 +1,19 @@
+<div class="flex justify-between">
+    <h4>Membership Plan Subscription</h4>
+    <button mat-stroked-button color="primary" (click)="openBillingPortal()">Billing Portal</button>
+</div>
+
+@if(subscription$ | async; as subscription) {
+    <mat-card class="bg-blue-100 w-fit hover:bg-slate-100">
+        <mat-card-content>
+            <h6><strong>{{ subscription.membershipPlan.name }}</strong></h6>
+            <p>{{ subscription.membershipPlan.description }}</p>
+            <p>Subscription Date: {{ subscription.startDate | date }}</p>
+            <p class="text-yellow-600"><strong>Renewal Date:</strong> {{ subscription.expiryDate | date }}</p>
+        </mat-card-content>
+    </mat-card>
+}
+@else {
+    <p class="text-yellow-600">No active membership subscriptions yet.</p>
+    <button mat-stroked-button color="primary">Get One!</button>
+}
