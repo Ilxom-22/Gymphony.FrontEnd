@@ -38,7 +38,7 @@ export class AccountVerificationComponent implements OnInit {
       }),
       catchError(error => {
         if (error.status === 400) {
-          this.verificationStatus = 'Token expired or invalid.';
+          this.verificationStatus = 'Verification Link is expired!';
         } else {
           this.verificationStatus = 'An error occured.'
         }
