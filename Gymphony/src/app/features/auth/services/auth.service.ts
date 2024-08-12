@@ -9,6 +9,8 @@ import { IdentityToken } from '../interfaces/identity-token.interface';
 import { UserService } from '../../../core/services/user.service';
 import { JwtService } from '../../../core/services/jwt.service';
 import { PasswordReset } from '../interfaces/password-reset.interface';
+import { ChangePassword } from '../interfaces/change-password.interface';
+import { UserProfileImage } from '../../../core/interfaces/user-profile-image';
 
 @Injectable({
   providedIn: 'root'
@@ -57,11 +59,19 @@ export class AuthService {
   }
 
   public forgotPassword(emailAddress: string) {
-    return this.http.post(`${this.apiUrl}/auth/forgot-password/${emailAddress}`, null);
+    return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`);
   }
 
   public resetPassword(passwordReset: PasswordReset) {
     return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset);
+  }
+
+  public changePassword(changePassword: ChangePassword) {
+    return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword);
+  }
+
+  public resendAccountVerificationEmail(emailAddress: string) {
+    return this.http.get(`${this.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

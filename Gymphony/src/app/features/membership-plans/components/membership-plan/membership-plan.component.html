@@ -1,0 +1,15 @@
+<mat-card class="membership-plan-card">
+    <mat-card-header class="plan-header">
+      <div class="text-2xl font-bold text-primaryContentColor">{{ plan.name }}</div>
+    </mat-card-header>
+    <div class="h-[1px] w-full bg-tertiaryContentColor"></div>
+    <mat-card-content class="text-center">
+      <div class="my-4 text-4xl font-bold price">${{ plan.price }}</div>
+      <div class="my-4 text-sm description">{{ plan.description }}</div>
+      <div class="my-4 text-lg duration"><strong>Duration:</strong> {{ plan.durationCount }} {{ plan.durationUnit }}</div>
+    </mat-card-content>
+    <mat-card-actions class="flex justify-center mt-4 mb-2">
+        <button mat-flat-button color="primary" [disabled]="!isActive" (click)="onSubscribeClicked()">{{isActive ? 'Subscribe' : 'Coming soon'}}</button>
+    </mat-card-actions>
+  </mat-card>
+  

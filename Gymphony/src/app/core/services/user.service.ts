@@ -8,9 +8,15 @@ import { User } from '../interfaces/user';
 })
 export class UserService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  public $user: Observable<User | null> = this.userSubject.asObservable();
+  public user$: Observable<User | null> = this.userSubject.asObservable();
 
-  constructor() { }
+  public isLoggedIn(): boolean {
+    if (this.userSubject.value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public setUser(user: User | null): void {
     this.userSubject.next(user);
