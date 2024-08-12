@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, EmptyError, Observable, throwError } from 'rxjs';
 
 import { MembershipPlanSubscription } from '../interfaces/membership-plan-subscription.interface';
 import { CourseSubscription } from '../interfaces/course-subscription.interface';
 import { SubscribeForMembershipPlan } from '../../membership-plans/interfaces/subscribe-for-membership-plan';
 import { CheckoutSession } from '../../membership-plans/interfaces/checkout-session';
+import { ApiError } from '../../../core/interfaces/api-error';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,13 @@ export class SubscriptionsService {
   }
 
   public subscribeForMembershipPlan(subscribeForMembershipPlan: SubscribeForMembershipPlan): Observable<CheckoutSession> {
-    return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-membershipPlan`, subscribeForMembershipPlan);
+    return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-membershipPlan`, subscribeForMembershipPlan)
+      .pipe(
+        catchError((error: HttpErrorResponse) => this.handlerError(error))
+      );
+  }
+
+  private handlerError(error: HttpErrorResponse) {
+    return throwError(() => error.error as ApiError);
   }
 }
