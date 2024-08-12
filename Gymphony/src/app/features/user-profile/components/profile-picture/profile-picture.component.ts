@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -26,11 +26,8 @@ export class ProfilePictureComponent {
     const dialogRef = this.modalService.showConfirmationModal(`We are going to send a message to the ${this.user.emailAddress} email address with a link for verifiying your account!`, 'Account Verification');
 
     dialogRef.afterClosed().pipe(
-      tap((result: boolean) => {
-        if (result) {
-          this.authService.resendAccountVerificationEmail(this.user.emailAddress).subscribe();
-        }
-      })
+      filter((result: boolean) => result),
+      tap(() => this.authService.resendAccountVerificationEmail(this.user.emailAddress).subscribe())
     )
     .subscribe();
   }
