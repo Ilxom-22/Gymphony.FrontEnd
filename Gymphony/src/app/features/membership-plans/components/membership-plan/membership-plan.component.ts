@@ -6,9 +6,8 @@ import { MembershipPlan } from '../../interfaces/membership-plan';
 import { CheckoutSession } from '../../interfaces/checkout-session';
 import { SubscriptionsService } from '../../../user-profile/services/subscriptions.service';
 import { SubscribeForMembershipPlan } from '../../interfaces/subscribe-for-membership-plan';
-import { ApiError } from '../../../../core/interfaces/api-error';
 import { MessageService } from '../../../../shared/services/message.service';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 @Component({
   selector: 'app-membership-plan',
@@ -18,8 +17,10 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 export class MembershipPlanComponent {
   @Input() plan!: MembershipPlan;
   @Input() isActive!: boolean;
-
-  constructor(private subscriptionsService: SubscriptionsService, private messageService: MessageService) { }
+  
+  constructor(
+    private subscriptionsService: SubscriptionsService, 
+    private messageService: MessageService) { }
 
   public onSubscribeClicked(): void {
     const checkoutSession: CheckoutSession = {} as CheckoutSession;
@@ -37,13 +38,9 @@ export class MembershipPlanComponent {
           this.redirectToStripeCheckout(checkoutSession);
         }),
         catchError((error: ApiError) => {
-          
-          if (error && error.detail) {
-            this.messageService.triggerError(error.detail);
-          } else {
-            this.messageService.triggerError('An unexpected error occured.');
+          if (error.status === 400) {
+            this.messageService.triggerError('You already have an active membership plan subscription.');
           }
-
           return EMPTY;
         })
       ).subscribe();
