@@ -1,10 +1,10 @@
 @if(isVisible && message) {
-  <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full p-4">
+  <div class="fixed top-0 left-0 z-[1500] flex items-center justify-center w-full p-4 pointer-events-none mt-12">
     <div
-      class="w-full max-w-sm p-4 text-white rounded-lg shadow-lg"
+      class="w-full max-w-sm p-4 text-white rounded-lg shadow-lg pointer-events-auto"
       [ngClass]="{
-        'bg-green-500': messageType === 'success',
-        'bg-red-500': messageType === 'error'
+        'bg-successColor': messageType === 'success',
+        'bg-dangerColor': messageType === 'error'
       }"
     >
       <div class="flex items-center">
