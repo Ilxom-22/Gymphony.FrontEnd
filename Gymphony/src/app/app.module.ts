@@ -11,12 +11,13 @@ import { HomeModule } from './features/home/home.module';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { ProfileIconComponent } from './core/components/profile-icon/profile-icon.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { AuthResponseInterceptor } from './core/interceptors/auth-response.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    ProfileIconComponent,
+    ProfileIconComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +32,11 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    }, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthResponseInterceptor,
       multi: true
     }
   ],

@@ -1,6 +1,6 @@
 <div class="flex justify-between">
-    <h4>Course Subscriptions</h4>
-    <button mat-stroked-button color="primary" (click)="openBillingPortal()">Billing Portal</button>
+    <h4 class="text-primaryContentColor">Course Subscriptions</h4>
+    <button mat-flat-button (click)="openBillingPortal()">Billing Portal</button>
 </div>
 
 
@@ -14,5 +14,5 @@
 
 @else {
     <p class="text-yellow-600">No active course subscriptions yet.</p>
-    <button mat-stroked-button color="primary">Get One!</button>
+    <button mat-flat-button>Get One!</button>
 }

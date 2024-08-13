@@ -6,7 +6,6 @@ import { SubscriptionsService } from './subscriptions.service';
 import { UserProfileService } from './user-profile.service';
 import { UserService } from '../../../core/services/user.service';
 
-
 export const userProfileResolver: ResolveFn<boolean> = (route, state) => {
   const userProfileService = inject(UserProfileService);
   const subscriptionsService = inject(SubscriptionsService);

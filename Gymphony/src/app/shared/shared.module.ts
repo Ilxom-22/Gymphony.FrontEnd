@@ -12,11 +12,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { MessageComponent } from './components/message/message.component';
 
 
 @NgModule({
   declarations: [
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     MatMenuModule,
     MatDialogModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    MessageComponent
   ]
 })
 export class SharedModule { }

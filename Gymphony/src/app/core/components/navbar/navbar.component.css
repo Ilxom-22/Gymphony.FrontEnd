@@ -1,0 +1,11 @@
+.mat-toolbar {
+  @apply text-primaryContentColor bg-primaryColor;
+}
+
+.mat-toolbar a[mat-button] {
+  @apply text-primaryContentColor;
+}
+  
+.mat-toolbar a[mat-button]:hover {
+  @apply bg-primaryContentColor text-primaryColor;
+}

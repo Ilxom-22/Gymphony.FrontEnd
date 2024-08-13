@@ -13,7 +13,10 @@ export class AccountVerificationComponent implements OnInit {
   verificationStatus?: string;
   isSuccess: boolean = false;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private authService: AuthService,
+    private router: Router) { }
 
   public ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -39,7 +42,7 @@ export class AccountVerificationComponent implements OnInit {
       tap(() => this.router.navigate(['/home'])),
       catchError(error => {
         if (error.status === 400) {
-          this.verificationStatus = 'Token expired or invalid.';
+          this.verificationStatus = 'Verification Link is expired!';
         } else {
           this.verificationStatus = 'An unexpected error occured.'
         }

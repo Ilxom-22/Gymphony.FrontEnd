@@ -1,5 +1,5 @@
-<div class="flex flex-col items-center gap-5 p-6 bg-white rounded-lg shadow-lg">
-    <h5 class="mb-4 text-xl font-semibold">Register</h5>
+<div class="flex flex-col items-center gap-5 p-6 rounded-lg shadow-lg bg-tertiaryColor">
+    <h5 class="mb-4 text-xl font-semibold text-primaryContentColor">Register</h5>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill" class="w-full mb-4">
             <mat-label>First Name</mat-label>
@@ -72,8 +72,8 @@
         </mat-form-field>
         
         <div class="flex justify-between">
-            <button type="button" class="mt-4 text-blue-500" (click)="openLoginModal()">Already have an account? Login</button>
-            <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+            <button type="button" class="mt-4 text-primaryContentColor hover:text-accentPrimaryColor" (click)="openLoginModal()">Already have an account? Login</button>
+            <button mat-flat-button type="submit" class="{{ registerForm.invalid ? 'secondary-button' : 'primary-button'}}" [disabled]="registerForm.invalid">Register</button>
         </div>
     </form>
   </div>
