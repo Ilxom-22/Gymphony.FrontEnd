@@ -3,7 +3,7 @@
       
       <mat-card class="h-full col-span-1 mat-card">
         <mat-card-content>
-          <app-profile-picture *ngIf="user$ | async as user" [user]="user"></app-profile-picture>
+          <app-profile-picture [user]="user"></app-profile-picture>
         </mat-card-content>
       </mat-card>
       
@@ -23,9 +23,7 @@
             </mat-card-content>
           </mat-card>
         }
-        
       </div>
-      
     </div>
 </div>
   
