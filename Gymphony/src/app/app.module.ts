@@ -16,7 +16,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
   declarations: [
     AppComponent,
     NavbarComponent,
-    ProfileIconComponent,
+    ProfileIconComponent
   ],
   imports: [
     BrowserModule,

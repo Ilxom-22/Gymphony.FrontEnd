@@ -1,0 +1,18 @@
+<div class="flex items-center justify-center mt-32">
+    <div class="p-6 text-center bg-white rounded-lg shadow-lg ">
+        <i class="mb-4 text-5xl text-green-500 fas fa-check-circle"></i>
+        
+        <h2 class="mb-2 text-2xl font-bold">Payment succeeded!</h2>
+        <p class="mb-4 text-gray-600">
+            Thank you for subscribing for "{{ product }}" {{ productType }}.<br />
+            You can see your active subscriptions in your profile page.
+        </p>
+        
+        <button mat-raised-button color="primary" class="mt-4" (click)="onProfileClicked()">
+        Your Profile
+        </button>
+    </div>
+</div>
+
+
+  
