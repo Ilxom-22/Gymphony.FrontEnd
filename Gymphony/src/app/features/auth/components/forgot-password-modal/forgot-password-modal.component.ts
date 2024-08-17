@@ -24,6 +24,10 @@ export class ForgotPasswordModalComponent {
     private messageService: MessageService) { }
 
   public onSubmit(): void {
+    if (this.emailForm.invalid) {
+      return;
+    }
+
     this.authService.forgotPassword(this.emailForm.controls['emailAddress'].value)
       .pipe(
         tap(() => {
