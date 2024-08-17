@@ -1,0 +1,88 @@
+<div class="flex justify-end p-4">
+    <button 
+        mat-flat-button
+        class="mr-2 view-button"
+        [disabled]="isGridView" 
+        (click)="switchView()">
+        All Plans
+    </button>
+    <button
+        mat-flat-button 
+        class="view-button"
+        [disabled]="!isGridView" 
+        (click)="switchView()">
+        Plans by Status
+    </button>
+</div>
+
+<div *ngIf="isGridView" class="grid grid-cols-1 gap-6 p-4 mb-20 md:grid-cols-2 lg:grid-cols-3">
+    @for(plan of allPlans; track plan.id) {
+        <app-admin-membership-plan 
+            [plan]="plan" 
+            (planDeleted)="onPlanDeleted($event)" 
+            (planUpdated)="onPlanUpdated($event)"
+            (planPublished)="onPlanPublished($event)"
+            (planDeactivated)="onPlanDeactivated($event)"></app-admin-membership-plan>
+    }
+</div>
+
+<div *ngIf="!isGridView" class="p-4 mb-10">
+    @if(draftPlans.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Draft Plans</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(plan of draftPlans; track plan.id) {
+                <app-admin-membership-plan 
+                [plan]="plan"
+                (planPublished)="onPlanPublished($event)"
+                (planUpdated)="onPlanUpdated($event)"
+                (planDeleted)="onPlanDeleted($event)"></app-admin-membership-plan>
+            }
+        </div>
+    }
+   
+    @if(publishedPlans.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Published Plans</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(plan of publishedPlans; track plan.id) {
+                <app-admin-membership-plan 
+                [plan]="plan"
+                (planDeactivated)="onPlanDeactivated($event)"></app-admin-membership-plan>
+            }
+        </div>
+    }
+
+    @if(activatedPlans.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Activated Plans</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(plan of activatedPlans; track plan.id) {
+                <app-admin-membership-plan
+                [plan]="plan"
+                (planUpdated)="onPlanUpdated($event)"
+                (planDeactivated)="onPlanDeactivated($event)"></app-admin-membership-plan>
+            }
+        </div>    
+    }
+   
+    @if(deactivationRequestedPlans.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">In-Deactivation Plans</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(plan of deactivationRequestedPlans; track plan.id) {
+                <app-admin-membership-plan [plan]="plan"></app-admin-membership-plan>
+            }
+        </div>
+    }
+    
+    @if(deactivatedPlans.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Deactivated Plans</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(plan of deactivatedPlans; track plan.id) {
+                <app-admin-membership-plan [plan]="plan"></app-admin-membership-plan>
+            }
+        </div>
+    }
+</div>
+
+<button mat-flat-button class="add-button"
+    (click)="onCreateMembershipPlan()">
+    <i class="fa-regular fa-plus"></i>
+</button>
