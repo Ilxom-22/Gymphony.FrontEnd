@@ -12,12 +12,14 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { ProfileIconComponent } from './core/components/profile-icon/profile-icon.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthResponseInterceptor } from './core/interceptors/auth-response.interceptor';
+import { SidenavComponent } from './core/components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    ProfileIconComponent
+    ProfileIconComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
