@@ -5,3 +5,7 @@
 .secondary-button {
     @apply bg-accentSecondaryColor text-primaryContentColor;
 }
+
+mat-error { 
+    @apply text-dangerColor; 
+}
