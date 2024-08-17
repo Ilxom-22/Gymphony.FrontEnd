@@ -8,6 +8,12 @@ import { ForgotPasswordModalComponent } from '../components/forgot-password-moda
 import { ChangePasswordModalComponent } from '../../user-profile/components/change-password-modal/change-password-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { User } from '../../../core/interfaces/user';
+import { MembershipPlanDetails } from '../../membership-plans/interfaces/membership-plan-details';
+import { MembershipPlanDetailsModalComponent } from '../../membership-plans/components/membership-plan-details-modal/membership-plan-details-modal.component';
+import { PublishDateModalComponent } from '../../membership-plans/components/publish-date-modal/publish-date-modal.component';
+import { DraftMembershipPlan } from '../../membership-plans/interfaces/draft-membership-plan';
+import { DraftMembershipPlanComponent } from '../../membership-plans/components/draft-membership-plan/draft-membership-plan.component';
+import { PriceModalComponent } from '../../membership-plans/components/price-modal/price-modal.component';
 
 
 @Injectable({
@@ -48,6 +54,38 @@ export class ModalService {
   public showConfirmationModal(message: string, header?: string): MatDialogRef<ConfirmationModalComponent, any> {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: { header, message }
+    });
+
+    return dialogRef;
+  }
+
+  public showMembershipPlanDetailsModal(planDetails: MembershipPlanDetails): MatDialogRef<MembershipPlanDetailsModalComponent, any> {
+    const dialogRef = this.dialog.open(MembershipPlanDetailsModalComponent, {
+      data: planDetails
+    });
+
+    return dialogRef;
+  }
+
+  public showPublishDateModal(productName: string): MatDialogRef<PublishDateModalComponent, any> {
+    const dialogRef = this.dialog.open(PublishDateModalComponent, {
+      data: productName
+    });
+
+    return dialogRef;
+  }
+
+  public showDraftMembershipPlan(membershipPlan: DraftMembershipPlan | null = null): MatDialogRef<DraftMembershipPlanComponent, any> {
+    const dialogRef = this.dialog.open(DraftMembershipPlanComponent, {
+      data: membershipPlan
+    });
+
+    return dialogRef
+  }
+
+  public showPriceModal(productId: string, price: number): MatDialogRef<PriceModalComponent, any> {
+    const dialogRef = this.dialog.open(PriceModalComponent, {
+      data: { productId, price }
     });
 
     return dialogRef;
