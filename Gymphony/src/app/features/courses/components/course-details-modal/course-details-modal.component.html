@@ -1,0 +1,20 @@
+<div class="modal-theme">
+    <h2 mat-dialog-title class="mat-dialog-title">{{ course.name }}</h2>
+<mat-dialog-content class="mat-dialog-title">
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Duration:</strong> {{ course.durationCount }} {{ course.durationUnit }}</p>
+    <p><strong>Capacity:</strong> {{ course.capacity }} people</p>
+    <p><strong>Sessions per week:</strong> {{ course.enrollmentsCountPerWeek }} </p>
+    <p><strong>Session Duration:</strong> {{ course.sessionDurationInMinutes | duration }} </p>
+    <p><strong>Price:</strong> ${{ course.price }}</p>
+    <p *ngIf="course.activationDate"><strong>Activation Date:</strong> {{ course.activationDate | date }}</p>
+    <p *ngIf="course.deactivationDate"><strong>Deactivation Date:</strong> {{ course.deactivationDate | date }}</p>
+    <p><strong>Created By:</strong> {{ course.createdBy.firstName }} {{ course.createdBy.lastName }}</p>
+    <p><strong>Created Time:</strong> {{ course.createdTime | date: 'medium' }}</p>
+    <p *ngIf="course.modifiedBy"><strong>Modified By:</strong> {{ course.modifiedBy.firstName }} {{ course.modifiedBy.lastName }}</p>
+    <p *ngIf="course.modifiedTime"><strong>Modified Time:</strong> {{ course.modifiedTime | date: 'medium' }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-flat-button mat-dialog-close class="secondary-button">Close</button>
+</mat-dialog-actions>
+</div>
