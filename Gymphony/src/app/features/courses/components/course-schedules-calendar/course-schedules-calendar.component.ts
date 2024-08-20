@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { Router } from '@angular/router';
 import { catchError, EMPTY, tap } from 'rxjs';
 
 import { CourseSchedule } from '../../interfaces/course-schedule';
 import { CoursesService } from '../../services/courses.service';
 import { MessageService } from '../../../../shared/services/message.service';
-import { Router } from '@angular/router';
-
 
 
 @Component({
