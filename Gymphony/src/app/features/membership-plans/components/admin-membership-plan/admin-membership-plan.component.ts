@@ -47,8 +47,6 @@ export class AdminMembershipPlanComponent {
     dialogRef.afterClosed().pipe(
       filter((membershipPlan: MembershipPlan | null) => membershipPlan !== null && typeof(membershipPlan) === 'object'),
       tap((membershipPlan: MembershipPlan) =>{
-        console.log('updated');
-        console.log(membershipPlan);
         this.planUpdated.emit(membershipPlan);
       })
     )
