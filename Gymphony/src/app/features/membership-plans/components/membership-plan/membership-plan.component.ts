@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { tap } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 import { loadStripe } from '@stripe/stripe-js';
 
 import { MembershipPlan } from '../../interfaces/membership-plan';
 import { CheckoutSession } from '../../interfaces/checkout-session';
 import { SubscriptionsService } from '../../../user-profile/services/subscriptions.service';
 import { SubscribeForMembershipPlan } from '../../interfaces/subscribe-for-membership-plan';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 @Component({
   selector: 'app-membership-plan',
@@ -15,8 +17,10 @@ import { SubscribeForMembershipPlan } from '../../interfaces/subscribe-for-membe
 export class MembershipPlanComponent {
   @Input() plan!: MembershipPlan;
   @Input() isActive!: boolean;
-
-  constructor(private subscriptionsService: SubscriptionsService) { }
+  
+  constructor(
+    private subscriptionsService: SubscriptionsService, 
+    private messageService: MessageService) { }
 
   public onSubscribeClicked(): void {
     const checkoutSession: CheckoutSession = {} as CheckoutSession;
@@ -32,6 +36,12 @@ export class MembershipPlanComponent {
           checkoutSession.publicKey = session.publicKey;
           checkoutSession.sessionId = session.sessionId;
           this.redirectToStripeCheckout(checkoutSession);
+        }),
+        catchError((error: ApiError) => {
+          if (error.status === 400) {
+            this.messageService.triggerError('You already have an active membership plan subscription.');
+          }
+          return EMPTY;
         })
       ).subscribe();
   }

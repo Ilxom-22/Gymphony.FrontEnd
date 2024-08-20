@@ -1,0 +1,19 @@
+.modal-theme {
+    @apply p-2 bg-tertiaryColor;
+}
+
+.text-theme {
+    @apply text-primaryContentColor;
+}
+
+.primary-button {
+    @apply bg-accentPrimaryColor text-nowrap;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor;
+}
+
+mat-error {
+    @apply text-dangerColor;
+}

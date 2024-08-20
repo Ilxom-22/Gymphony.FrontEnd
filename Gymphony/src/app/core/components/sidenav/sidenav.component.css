@@ -1,0 +1,19 @@
+.mat-sidenav {
+    @apply w-[250px] bg-secondaryColor;
+}
+
+.mat-sidenav-container {
+    @apply bg-secondaryColor;
+}
+
+.mat-toolbar {
+    @apply text-primaryContentColor bg-primaryColor;
+}
+
+.mat-sidenav a[mat-button] {
+    @apply text-primaryContentColor;
+}
+    
+.mat-sidenav a[mat-button]:hover {
+    @apply bg-primaryContentColor text-primaryColor;
+}

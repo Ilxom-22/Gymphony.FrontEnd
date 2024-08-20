@@ -1,5 +1,5 @@
 .membership-plan-card {
-    @apply p-4 overflow-hidden bg-white border-[1px] border-solid rounded-lg shadow-lg border-[#D3D3D3];
+    @apply p-4 overflow-hidden bg-secondaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
 }
   
 .plan-header {
@@ -7,15 +7,15 @@
 }
   
 .price {
-    @apply my-4 text-4xl font-bold text-[#333333];
+    @apply my-4 text-4xl font-bold text-primaryContentColor;
 }
 
 .description {
-    @apply my-4 text-sm text-[#666666];
+    @apply my-4 text-sm text-secondaryContentColor;
 }
 
 .duration {
-    @apply my-4 text-lg text-[#333333];
+    @apply my-4 text-lg text-primaryContentColor;
 }
 
 .mat-card-actions {
@@ -23,5 +23,9 @@
 }
 
 button[mat-flat-button] {
-    @apply bg-[#32CD32]
+    @apply bg-accentPrimaryColor;
+}
+
+button[mat-flat-button]:disabled {
+    @apply text-primaryContentColor bg-accentSecondaryColor;
 }

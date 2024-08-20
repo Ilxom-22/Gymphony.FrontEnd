@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { tap } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
 import { passwordValidator } from '../../../../shared/validators/password-validator';
@@ -9,6 +9,8 @@ import { ModalService } from '../../../auth/services/modal.service';
 import { ChangePassword } from '../../../auth/interfaces/change-password.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UserService } from '../../../../core/services/user.service';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 
 @Component({
@@ -37,6 +39,7 @@ export class ChangePasswordModalComponent {
     private modalService: ModalService, 
     private authService: AuthService, 
     private userService: UserService,
+    private messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: { user: User } ) {
       this.user = data.user;
     }
@@ -52,12 +55,18 @@ export class ChangePasswordModalComponent {
         this.modalService.closeAllModals();
         const updatedUser: User = { ...this.user, temporaryPasswordChanged: true};
         this.userService.setUser(updatedUser);
+        this.messageService.triggerSuccess('Password changed successfully.')
+      }),
+      catchError((error: ApiError) => {
+        if (error.status === 400) {
+          this.messageService.triggerError(error.detail);
+        } else if (error.status === 500) {
+          this.messageService.triggerError('An unexpected error occured.');
+        }
+
+        return EMPTY;
       })
     )
     .subscribe();
-  }
-
-  public onClose(): void {
-    this.modalService.closeAllModals();
   }
 }

@@ -1,0 +1,36 @@
+.membership-plan-card {
+    @apply p-4 overflow-hidden bg-secondaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
+}
+  
+.plan-header {
+    @apply flex-col items-center mt-2 mb-4;
+}
+  
+.price {
+    @apply my-4 text-4xl font-bold text-primaryContentColor;
+}
+
+.description {
+    @apply my-4 text-sm text-secondaryContentColor;
+}
+
+.duration {
+    @apply my-4 text-lg text-primaryContentColor;
+}
+
+.mat-card-actions {
+    @apply flex justify-center mt-4 mb-2;
+}
+
+.primary-button {
+    @apply bg-accentPrimaryColor;
+}
+
+.danger-button {
+    @apply bg-dangerColor;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor;
+}
+

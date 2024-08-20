@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, catchError, tap, switchMap } from 'rxjs';
+import { Observable, of, catchError, tap, switchMap, throwError, empty, EMPTY } from 'rxjs';
 
 import { SignUpDetails } from '../interfaces/sign-up-details.interface';
 import { User } from '../../../core/interfaces/user';
@@ -10,7 +10,7 @@ import { UserService } from '../../../core/services/user.service';
 import { JwtService } from '../../../core/services/jwt.service';
 import { PasswordReset } from '../interfaces/password-reset.interface';
 import { ChangePassword } from '../interfaces/change-password.interface';
-import { UserProfileImage } from '../../../core/interfaces/user-profile-image';
+import { ApiError } from '../../../core/interfaces/api-error';
 
 @Injectable({
   providedIn: 'root'
@@ -22,25 +22,50 @@ export class AuthService {
 
   public signUp(signUpDetails: SignUpDetails): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/auth/sign-up-by-email`, signUpDetails)
-      .pipe(catchError(this.handleError<User>('sign-up')));
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public signIn(signInDetails: SignInDetails): Observable<User> {
     return this.http.post<IdentityToken>(`${this.apiUrl}/auth/sign-in-by-email`, signInDetails)
-      .pipe(tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
+      .pipe(
+        tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
         switchMap(() => this.getCurrentLoggedInUser()),
-        catchError(this.handleError<User>('sign-in')));
+        catchError((error: HttpErrorResponse) => this.handlerError(error))
+      );
+  }
+
+  public refreshToken(): Observable<User | null> {
+    if (!this.jwtService.refreshTokenExists()) {
+      return of(null);
+    }
+    
+    const refreshToken = this.jwtService.getRefreshToken();
+    return this.http.post<IdentityToken>(`${this.apiUrl}/auth/refresh-token`, { refreshToken })
+      .pipe(
+        tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
+        switchMap(() => this.getCurrentLoggedInUser()),
+        catchError((error: HttpErrorResponse) => {
+          this.jwtService.clearTokens();
+          this.handlerError(error);
+
+          return EMPTY;
+        })
+      );
   }
 
   public getCurrentLoggedInUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/auth/me`)
-      .pipe(tap((user: User) => this.userService.setUser(user)),
-        catchError(this.handleError<User>('get current logged-in user')));
+      .pipe(
+        tap((user: User) => this.userService.setUser(user)),
+        catchError((error: HttpErrorResponse) => this.handlerError(error))
+      );
   }
 
   public autoLogIn(): Observable<User | null> {
     if (this.jwtService.accessTokenExists()) {
-      return this.getCurrentLoggedInUser();
+      return this.getCurrentLoggedInUser().pipe(
+        catchError(() => this.refreshToken())
+      );
     }
 
     return of(null);
@@ -48,39 +73,50 @@ export class AuthService {
 
   public logout(): Observable<object> {
     return this.http.post(`${this.apiUrl}/auth/log-out`, null)
-      .pipe(tap(() => {
-        this.jwtService.clearTokens();
-        this.userService.setUser(null);
-      }));
+      .pipe(
+        tap(() => {
+          this.jwtService.clearTokens();
+          this.userService.setUser(null);
+      }),
+      catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public verifyAccount(token: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } );
+    return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } )
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public forgotPassword(emailAddress: string) {
-    return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`);
+  public forgotPassword(emailAddress: string): Observable<object> {
+    return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resetPassword(passwordReset: PasswordReset) {
-    return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset);
+  public resetPassword(passwordReset: PasswordReset): Observable<object> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public changePassword(changePassword: ChangePassword) {
-    return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword);
+  public changePassword(changePassword: ChangePassword): Observable<object> {
+    return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resendAccountVerificationEmail(emailAddress: string) {
+  public resendAccountVerificationEmail(emailAddress: string): Observable<object> {
     return this.http.get(`${this.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
+  public blockAdmin(adminId: string): Observable<object> {
+    return this.http.put(`${this.apiUrl}/admins/block/${adminId}`, null)
+      .pipe(
+        tap(() => {
+          this.jwtService.clearTokens();
+          this.userService.setUser(null);
+        }),
+        catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
 
-      console.error(`${operation} failed: ${error.message}`);
-
-      return of(result as T);
-    };
+  private handlerError(error: HttpErrorResponse) {
+    return throwError(() => error.error as ApiError);
   }
 }

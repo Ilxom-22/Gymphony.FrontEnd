@@ -6,5 +6,6 @@ export interface MembershipPlan {
     durationCount: number;
     status: string;
     activationDate: Date;
+    deactivationDate: Date;
     price: number;
 }

@@ -1,8 +1,8 @@
-<div class="flex flex-col items-center max-w-md p-8 mx-auto mt-20 bg-white rounded-lg shadow-lg">
-    <div *ngIf="verificationStatus" [ngClass]="{ 'text-green-600': isSuccess, 'text-red-600': !isSuccess }" class="text-center">
-      <mat-icon *ngIf="isSuccess" class="text-6xl text-green-600">check_circle</mat-icon>
-      <mat-icon *ngIf="!isSuccess" class="text-6xl text-red-600">error</mat-icon>
-      <h2 class="mt-2 text-2xl font-bold">{{ verificationStatus }}</h2>
+<div class="flex flex-col items-center max-w-md p-8 mx-auto mt-20 rounded-lg shadow-lg bg-tertiaryColor border-[1px] border-secondaryContentColor">
+    <div *ngIf="verificationStatus" [ngClass]="{ 'text-successColor': isSuccess, 'text-dangerColor': !isSuccess }" class="text-center">
+      <i *ngIf="!isSuccess" class="mb-5 text-5xl text-dangerColor fas fa-times-circle"></i>
+      <i *ngIf="isSuccess" class="mb-5 text-5xl text-successColor fas fa-check-circle"></i>
+      <h2 class="text-2xl font-bold">{{ verificationStatus }}</h2>
       <p class="mt-2">{{ isSuccess ? 'You will be redirected to the homepage shortly.' : 'Please try again.' }}</p>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { filter, tap } from 'rxjs';
+import { catchError, EMPTY, filter, switchMap, tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -7,6 +7,8 @@ import { UserService } from '../../../../core/services/user.service';
 import { ModalService } from '../../../auth/services/modal.service';
 import { UserProfileImage } from '../../../../core/interfaces/user-profile-image';
 import { FilesService } from '../../../../core/services/files.service';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 @Component({
   selector: 'app-profile-picture',
@@ -20,14 +22,23 @@ export class ProfilePictureComponent {
     private authService: AuthService,
     private filesService: FilesService, 
     private userService: UserService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private messageService: MessageService) { }
 
   public onResendVerificationEmail(): void {
     const dialogRef = this.modalService.showConfirmationModal(`We are going to send a message to the ${this.user.emailAddress} email address with a link for verifiying your account!`, 'Account Verification');
 
     dialogRef.afterClosed().pipe(
       filter((result: boolean) => result),
-      tap(() => this.authService.resendAccountVerificationEmail(this.user.emailAddress).subscribe())
+      switchMap(() => {
+        return this.authService.resendAccountVerificationEmail(this.user.emailAddress).pipe(
+          tap(() => this.messageService.triggerSuccess('Email message is sent to your inbox.')),
+          catchError(() => {
+            this.messageService.triggerError('An unexpected error occured. Please try again later.');
+            return EMPTY;
+          })
+        )
+      })
     )
     .subscribe();
   }
@@ -41,11 +52,19 @@ export class ProfilePictureComponent {
 
       this.filesService.uploadProfileImage(formData)
         .pipe(
+          filter((profileImage: UserProfileImage) => profileImage !== null),
           tap((profileImage: UserProfileImage) => {
-            if (profileImage) {
-              const updatedUser = { ...this.user, profileImage: profileImage };
-              this.userService.setUser(updatedUser);
+            const updatedUser = { ...this.user, profileImage: profileImage };
+            this.userService.setUser(updatedUser);
+          }),
+          catchError((error: ApiError) => {
+            if (error.status === 400) {
+              this.messageService.triggerError(error.detail);
+            } else if (error. status === 500) {
+              this.messageService.triggerError('An unexpected error occured. Please try again later.')
             }
+
+            return EMPTY;
           })
         )
         .subscribe();
