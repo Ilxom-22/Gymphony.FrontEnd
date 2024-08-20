@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule) },
   { path: 'profile', loadChildren: () => import('./features/user-profile/user-profile.module').then(m => m.UserProfileModule) },
   { path: 'plans', loadChildren: () => import('./features/membership-plans/membership-plans.module').then(m => m.MembershipPlansModule) },
+  { path: 'courses', loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule) },
   { path: 'payments', loadChildren: () => import('./features/payments/payments.module').then(m => m.PaymentsModule) }
 ];
 
