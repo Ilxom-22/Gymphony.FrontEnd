@@ -1,0 +1,23 @@
+.modal-theme {
+    @apply p-2 bg-tertiaryColor min-w-[500px];
+}
+
+.text-theme {
+    @apply text-primaryContentColor;
+}
+
+.primary-button {
+    @apply w-full bg-accentPrimaryColor text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply w-full bg-accentSecondaryColor text-primaryContentColor;
+}
+
+.upload-file-button {
+    @apply bg-accentPrimaryColor text-primaryContentColor rounded-md hover:opacity-90 p-2 
+}
+
+mat-error { 
+    @apply text-dangerColor; 
+}
