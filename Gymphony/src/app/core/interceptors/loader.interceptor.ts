@@ -1,8 +1,7 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { delay, finalize, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { catchError, delay, finalize, Observable } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
 import { Injectable } from '@angular/core';
-import { isThisHour } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
