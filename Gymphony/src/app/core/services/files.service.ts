@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 
 import { UserProfileImage } from '../interfaces/user-profile-image';
 import { ApiError } from '../interfaces/api-error';
+import { CourseImage } from '../../features/user-profile/interfaces/course-image.interface';
 
 
 @Injectable({
@@ -18,6 +19,11 @@ export class FilesService {
     return this.http.post<UserProfileImage>(`${this.apiUrl}/files/profileImages`, formData).pipe(
       catchError((error: HttpErrorResponse) => this.handlerError(error))
     );
+  }
+
+  public uploadCourseImage(courseId: string, formData: FormData): Observable<CourseImage> {
+    return this.http.post<CourseImage>(`${this.apiUrl}/files/courses/${courseId}`, formData)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   private handlerError(error: HttpErrorResponse) {

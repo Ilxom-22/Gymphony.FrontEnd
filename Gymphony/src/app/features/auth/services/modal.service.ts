@@ -14,6 +14,10 @@ import { PublishDateModalComponent } from '../../membership-plans/components/pub
 import { DraftMembershipPlan } from '../../membership-plans/interfaces/draft-membership-plan';
 import { DraftMembershipPlanComponent } from '../../membership-plans/components/draft-membership-plan/draft-membership-plan.component';
 import { PriceModalComponent } from '../../membership-plans/components/price-modal/price-modal.component';
+import { CourseDetails } from '../../courses/interfaces/course-details';
+import { CourseDetailsModalComponent } from '../../courses/components/course-details-modal/course-details-modal.component';
+import { DraftCourse } from '../../courses/interfaces/draft-course';
+import { DraftCourseComponent } from '../../courses/components/draft-course/draft-course.component';
 
 
 @Injectable({
@@ -67,6 +71,14 @@ export class ModalService {
     return dialogRef;
   }
 
+  public showCourseDetailsModal(CourseDetails: CourseDetails): MatDialogRef<CourseDetailsModalComponent, any> {
+    const dialogRef = this.dialog.open(CourseDetailsModalComponent, {
+      data: CourseDetails
+    });
+
+    return dialogRef;
+  }
+
   public showPublishDateModal(productName: string): MatDialogRef<PublishDateModalComponent, any> {
     const dialogRef = this.dialog.open(PublishDateModalComponent, {
       data: productName
@@ -78,6 +90,14 @@ export class ModalService {
   public showDraftMembershipPlan(membershipPlan: DraftMembershipPlan | null = null): MatDialogRef<DraftMembershipPlanComponent, any> {
     const dialogRef = this.dialog.open(DraftMembershipPlanComponent, {
       data: membershipPlan
+    });
+
+    return dialogRef
+  }
+
+  public showDraftCourse(course: DraftCourse | null = null): MatDialogRef<DraftCourseComponent, any> {
+    const dialogRef = this.dialog.open(DraftCourseComponent, {
+      data: course
     });
 
     return dialogRef
