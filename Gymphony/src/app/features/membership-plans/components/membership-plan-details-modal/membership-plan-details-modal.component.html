@@ -7,9 +7,9 @@
     <p *ngIf="plan.activationDate"><strong>Activation Date:</strong> {{ plan.activationDate | date }}</p>
     <p *ngIf="plan.deactivationDate"><strong>Deactivation Date:</strong> {{ plan.deactivationDate | date }}</p>
     <p><strong>Created By:</strong> {{ plan.createdBy.firstName }} {{ plan.createdBy.lastName }}</p>
-    <p><strong>Created Time:</strong> {{ plan.createdTime | date }}</p>
+    <p><strong>Created Time:</strong> {{ plan.createdTime | date: 'medium' }}</p>
     <p *ngIf="plan.modifiedBy"><strong>Modified By:</strong> {{ plan.modifiedBy.firstName }} {{ plan.modifiedBy.lastName }}</p>
-    <p *ngIf="plan.modifiedTime"><strong>Modified Time:</strong> {{ plan.modifiedTime | date }}</p>
+    <p *ngIf="plan.modifiedTime"><strong>Modified Time:</strong> {{ plan.modifiedTime | date: 'medium' }}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-flat-button mat-dialog-close class="secondary-button">Close</button>

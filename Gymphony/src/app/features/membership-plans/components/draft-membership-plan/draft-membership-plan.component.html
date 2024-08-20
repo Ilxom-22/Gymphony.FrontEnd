@@ -16,20 +16,20 @@
                 </mat-form-field>
                 
                 <mat-form-field>
-                    <mat-label>Duration Unit</mat-label>
+                    <mat-label>Duration Period</mat-label>
                     <mat-select formControlName="durationUnit" >
                         <mat-option value="Day">Day</mat-option>
                         <mat-option value="Week">Week</mat-option>
                         <mat-option value="Month">Month</mat-option>
                         <mat-option value="Year">Year</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="membershipPlanForm.get('durationUnit')?.invalid">Duration Unit is required</mat-error>
+                    <mat-error *ngIf="membershipPlanForm.get('durationUnit')?.invalid">Duration Period is required</mat-error>
                 </mat-form-field>
                 
                 <mat-form-field appearance="fill">
-                    <mat-label>Duration Count</mat-label>
+                    <mat-label>Number of Periods</mat-label>
                     <input matInput type="number" formControlName="durationCount">
-                    <mat-error *ngIf="membershipPlanForm.get('durationCount')?.invalid">Duration Count is required and must be at least 1</mat-error>
+                    <mat-error *ngIf="membershipPlanForm.get('durationCount')?.invalid">Number of Periods is required and must be at least 1</mat-error>
                 </mat-form-field>
                 
                 <mat-form-field appearance="fill">

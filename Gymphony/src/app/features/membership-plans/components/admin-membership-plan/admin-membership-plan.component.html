@@ -12,7 +12,9 @@
             <p class="relative text-sm top-[5px] text-primaryContentColor">{{ plan.status | uppercase }}</p>
         </div>
     </mat-card-header>
+    
     <div class="h-[1px] w-full bg-tertiaryContentColor"></div>
+    
     <mat-card-content class="flex-grow text-center">
         <div class="my-4 text-4xl font-bold price">${{ plan.price }}</div>
         <div class="my-4 text-sm description">{{ plan.description }}</div>
@@ -20,6 +22,7 @@
         <div *ngIf="plan.activationDate" class="my-4 text-sm duration"><strong>Activation Date:</strong> {{ plan.activationDate | date }}</div>
         <div *ngIf="plan.deactivationDate" class="my-4 text-sm duration"><strong>Deactivation Date:</strong> {{ plan.deactivationDate | date }}</div>
     </mat-card-content>
+    
     <mat-card-actions class="flex justify-between gap-2 mt-4 mb-2">
         <button mat-flat-button class="w-full primary-button" (click)="onDetailsClicked()">Details</button>
         <button mat-flat-button class="w-full primary-button" (click)="onEditClicked()" *ngIf="plan.status === 'Draft'">Edit</button>

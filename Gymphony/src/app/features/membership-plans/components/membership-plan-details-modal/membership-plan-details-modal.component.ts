@@ -13,7 +13,7 @@ export class MembershipPlanDetailsModalComponent {
   public plan: MembershipPlanDetails;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmationModalComponent>,
+    public dialogRef: MatDialogRef<MembershipPlanDetailsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: MembershipPlanDetails)
   {
       this.plan = data;
