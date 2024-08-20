@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 import { Course } from '../../interfaces/course';
-import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 
 @Component({
   selector: 'app-course',
