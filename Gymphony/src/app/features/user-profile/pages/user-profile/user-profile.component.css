@@ -1,0 +1,3 @@
+.mat-card {
+    @apply bg-secondaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
+}

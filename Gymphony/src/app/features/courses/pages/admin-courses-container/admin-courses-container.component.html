@@ -1,0 +1,90 @@
+<div class="flex justify-end p-4">
+    <button 
+        mat-flat-button
+        class="mr-2 view-button"
+        [disabled]="isGridView" 
+        (click)="switchView()">
+        All Courses
+    </button>
+    <button
+        mat-flat-button 
+        class="view-button"
+        [disabled]="!isGridView" 
+        (click)="switchView()">
+        Courses by Status
+    </button>
+</div>
+
+<div *ngIf="isGridView" class="grid grid-cols-1 gap-6 p-4 mb-20 md:grid-cols-2 lg:grid-cols-3">
+    @for(course of allCourses; track course.id) {
+        <app-admin-course 
+            [course]="course"
+            (courseDeleted)="onCourseDeleted($event)" 
+            (courseUpdated)="onCourseUpdated($event)"
+            (coursePublished)="onCoursePublished($event)"
+            (courseDeactivated)="onCourseDeactivated($event)">
+        </app-admin-course>
+    }
+</div>
+
+<div *ngIf="!isGridView" class="p-4 mb-10">
+    @if(draftCourses.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Draft Courses</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(course of draftCourses; track course.id) {
+                <app-admin-course 
+                [course]="course"
+                (courseDeleted)="onCourseDeleted($event)" 
+                (courseUpdated)="onCourseUpdated($event)"
+                (coursePublished)="onCoursePublished($event)">
+            </app-admin-course>
+            }
+        </div>
+    }
+   
+    @if(publishedCourses.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Published Courses</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(course of publishedCourses; track course.id) {
+                <app-admin-course 
+                [course]="course"
+                (courseDeactivated)="onCourseDeactivated($event)"></app-admin-course>
+            }
+        </div>
+    }
+
+    @if(activatedCourses.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Activated Courses</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(course of activatedCourses; track course.id) {
+                <app-admin-course
+                [course]="course"
+                (courseUpdated)="onCourseUpdated($event)"
+                (courseDeactivated)="onCourseDeactivated($event)"></app-admin-course>
+            }
+        </div>    
+    }
+   
+    @if(deactivationRequestedCourses.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">In-Deactivation Courses</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(course of deactivationRequestedCourses; track course.id) {
+                <app-admin-course [course]="course"></app-admin-course>
+            }
+        </div>
+    }
+    
+    @if(deactivatedCourses.length) {
+        <h2 class="text-xl font-bold text-primaryContentColor">Deactivated Courses</h2>
+        <div class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
+            @for(course of deactivatedCourses; track course.id) {
+                <app-admin-course [course]="course"></app-admin-course>
+            }
+        </div>
+    }
+</div>
+
+<button mat-flat-button class="add-button"
+    (click)="onCreateCourse()">
+    <i class="fa-regular fa-plus"></i>
+</button>

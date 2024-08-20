@@ -1,0 +1,15 @@
+.mat-card {
+    @apply bg-secondaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
+}
+
+.primary-button {
+    @apply bg-accentPrimaryColor;
+}
+
+.danger-button {
+    @apply bg-dangerColor;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor;
+}

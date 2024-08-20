@@ -1,0 +1,7 @@
+button[mat-flat-button] {
+    @apply bg-accentPrimaryColor;
+}
+
+.mat-card {
+    @apply bg-primaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
+}

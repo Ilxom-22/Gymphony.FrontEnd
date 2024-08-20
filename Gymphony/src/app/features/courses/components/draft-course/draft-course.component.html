@@ -1,0 +1,83 @@
+<div class="modal-theme">
+    <h2 mat-dialog-title class="text-theme"> {{ isNewCourse ? 'Create Course' : 'Update Course' }}</h2>
+    <mat-dialog-content>
+        <form [formGroup]="courseForm">
+            <div class="flex flex-col w-full">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-error *ngIf="courseForm.get('name')?.invalid">Name is required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description"></textarea>
+                    <mat-error *ngIf="courseForm.get('description')?.invalid">Description is required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Duration Period</mat-label>
+                    <mat-select formControlName="durationUnit" >
+                        <mat-option value="Day">Day</mat-option>
+                        <mat-option value="Week">Week</mat-option>
+                        <mat-option value="Month">Month</mat-option>
+                        <mat-option value="Year">Year</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="courseForm.get('durationUnit')?.invalid">Duration Period is required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Number of Periods</mat-label>
+                    <input matInput type="number" formControlName="durationCount">
+                    <mat-error *ngIf="courseForm.get('durationCount')?.invalid">Number of Periods is required and must be at least 1</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Capacity</mat-label>
+                    <input matInput type="number" formControlName="capacity">
+                    <mat-error *ngIf="courseForm.get('capacity')?.invalid">Capacity is required and must be at least 1</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Session Duration (minutes)</mat-label>
+                    <input matInput type="number" formControlName="sessionDurationInMinutes">
+                    <mat-error *ngIf="courseForm.get('sessionDurationInMinutes')?.invalid">Session Duration is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Minimum sessions count per week</mat-label>
+                    <input matInput type="number" formControlName="enrollmentsCountPerWeek">
+                    <mat-error *ngIf="courseForm.get('enrollmentsCountPerWeek')?.invalid">Minimum sessions count per week is required</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Price</mat-label>
+                    <input matInput type="number" formControlName="price">
+                    <mat-error *ngIf="courseForm.get('price')?.invalid">Price is required and must be non-negative</mat-error>
+                </mat-form-field>
+
+                <div *ngIf="isNewCourse" class="flex items-center justify-between p-4 bg-[#e0e2eb] rounded-lg">
+                    <label class="flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2 text-blue-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v1.125C3 18.99 4.01 20 5.375 20h13.25C19.99 20 21 18.99 21 17.625V16.5M7.5 12l4.5-4.5m0 0L16.5 12m-4.5-4.5V19.5" />
+                        </svg>
+                        <span class="text-blue-600">Upload File</span>
+                        <input type="file" class="hidden" id="fileInput" (change)="onFileSelected($event)" accept="image/*"/>
+                    </label>
+                    <span class="ml-4 text-gray-600">{{ selectedFile?.name ? selectedFile?.name : 'No file chosen' }}</span>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <div class="flex justify-between w-full">
+            <button mat-flat-button mat-dialog-close class="secondary-button">Cancel</button>
+            <button mat-flat-button (click)="submit()" 
+                [class]="courseForm.valid ? 'primary-button' : 'secondary-button'" 
+                [disabled]="courseForm.invalid || courseForm.pristine">{{ isNewCourse ? 'Create' : 'Update' }}
+            </button>
+        </div>
+    </mat-dialog-actions>
+
+</div>

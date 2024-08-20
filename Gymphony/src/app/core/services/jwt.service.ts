@@ -23,6 +23,11 @@ export class JwtService {
     return this.localStorageService.get('accessToken') !== null;
   }
 
+  public refreshTokenExists(): boolean {
+    const refreshToken = this.localStorageService.get('refreshToken');
+    return this.localStorageService.get('refreshToken') !== null;
+  }
+
   public getRefreshToken(): string | null {
     return this.localStorageService.get('refreshToken');
   }

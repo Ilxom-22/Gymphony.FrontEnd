@@ -1,0 +1,15 @@
+.modal-theme {
+    @apply bg-secondaryColor;
+}
+
+.primary-button {
+    @apply bg-accentPrimaryColor text-primaryContentColor;
+}
+
+.danger-button {
+    @apply bg-dangerColor text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor text-primaryContentColor;
+}

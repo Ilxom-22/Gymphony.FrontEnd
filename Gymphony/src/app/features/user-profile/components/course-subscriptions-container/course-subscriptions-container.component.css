@@ -1,0 +1,7 @@
+button[mat-flat-button] {
+    @apply bg-accentPrimaryColor;
+}
+
+button[mat-flat-button]:disabled {
+    @apply text-primaryContentColor bg-accentSecondaryColor;
+}

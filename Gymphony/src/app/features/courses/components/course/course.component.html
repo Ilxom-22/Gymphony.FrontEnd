@@ -1,0 +1,29 @@
+<mat-card class="flex flex-col h-full course-card">
+    <div class="relative">
+        <img [src]="course.image.courseImageUrl" alt="{{ course.name }}" class="course-image">
+    
+        <div class="absolute bottom-0 left-0 w-full pt-3 text-center bg-black bg-opacity-50">
+            <h3 class="course-name">{{ course.name }}</h3>
+        </div>
+    </div>
+    
+    <div class="px-4">
+        <mat-card-content class="text-center">
+            <div class="description">{{ course.description }}</div>
+            <div class="duration"><strong>Duration:</strong> {{ course.durationCount }} {{ course.durationUnit }}</div>
+            <div class="capacity"><strong>Capacity:</strong> {{ course.capacity }} people</div>
+            <div class="enrollments"><strong>Sessions per week:</strong> {{ course.enrollmentsCountPerWeek }} </div>
+            <div class="enrollments"><strong>Session Duration:</strong> {{ course.sessionDurationInMinutes | duration }} </div>
+            <div class="price"><strong>Price: ${{ course.price }}</strong></div>
+        </mat-card-content>
+        
+        <mat-card-actions class="flex justify-center mt-4 mb-2">
+            <button mat-flat-button 
+                routerLink="schedules"
+                [queryParams]="{ courseId: course.id, sessions: course.enrollmentsCountPerWeek }" 
+                [disabled]="course.status !== 'Activated'">
+                    {{ course.status === 'Activated' ? 'Enroll Now' : 'Coming Soon' }}
+            </button>
+        </mat-card-actions>
+    </div>
+</mat-card>

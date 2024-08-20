@@ -1,0 +1,31 @@
+<div class="modal-theme">
+    <h2 mat-dialog-title class="text-theme">Select a Publish Date {{ productName ? 'for ' + productName  : '' }}</h2>
+    <mat-dialog-content>
+        <form [formGroup]="dateForm">
+            <mat-form-field class="w-full">
+                <mat-label>Publish Date</mat-label>
+                <input 
+                    matInput [matDatepicker]="picker"
+                    formControlName="selectedDate">
+                <mat-hint class="text-theme">MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="dateForm.get('selectedDate')?.hasError('required')"
+                    class="error-message">
+                    Date is required
+                  </mat-error>
+                  <mat-error *ngIf="dateForm.get('selectedDate')?.hasError('invalidDate')"
+                    class="error-message">
+                    Date must be today or in the future
+                  </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <div class="flex justify-between w-full gap-5 mt-5">
+            <button mat-flat-button mat-dialog-close class="w-full secondary-button">Cancel</button>
+            <button mat-flat-button class="w-full primary-button" (click)="submitDate()" [disabled]="dateForm.invalid">Publish</button>
+        </div>
+    </mat-dialog-actions>
+</div>

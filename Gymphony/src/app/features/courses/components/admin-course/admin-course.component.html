@@ -1,0 +1,43 @@
+<mat-card class="flex flex-col h-full course-card">
+    <div class="relative">
+        <img [src]="course.image.courseImageUrl" alt="{{ course.name }}" class="course-image">
+    
+        <div class="absolute bottom-0 left-0 w-full pt-3 text-center bg-black bg-opacity-50">
+            <h3 class="course-name">{{ course.name }}</h3>
+        </div>
+
+        <div class="absolute flex items-center justify-center px-2 rounded-lg right-1 top-1"
+        [ngClass]="{
+           'bg-green-500': course.status === 'Activated',
+           'bg-blue-500': course.status === 'Published',
+           'bg-yellow-500': course.status === 'Draft',
+           'bg-red-500': course.status === 'In-Deactivation',
+           'bg-gray-500': course.status === 'Deactivated'
+        }">
+       <p class="relative text-sm top-[5px] text-primaryContentColor">{{ course.status | uppercase }}</p>
+   </div>
+    </div>
+    
+    <div class="flex flex-col justify-between h-full px-4">
+       
+        <mat-card-content class="flex-grow text-center">
+            <div class="description">{{ course.description }}</div>
+            <div class="duration"><strong>Duration:</strong> {{ course.durationCount }} {{ course.durationUnit }}</div>
+            <div class="capacity"><strong>Capacity:</strong> {{ course.capacity }} people</div>
+            <div class="enrollments"><strong>Sessions per week:</strong> {{ course.enrollmentsCountPerWeek }} </div>
+            <div class="enrollments"><strong>Session Duration:</strong> {{ course.sessionDurationInMinutes | duration }} </div>
+            <div *ngIf="course.activationDate" class="date"><strong>Activation Date</strong> {{ course.activationDate | date }} </div>
+            <div *ngIf="course.deactivationDate" class="date"><strong>Deactivation Date</strong> {{ course.deactivationDate | date }} </div>
+            <div class="price"><strong>Price: ${{ course.price }}</strong></div>
+        </mat-card-content>
+        
+        <mat-card-actions class="flex justify-between gap-2 mt-4 mb-2">
+            <button mat-flat-button class="w-full primary-button" (click)="onDetailsClicked()">Details</button>
+            <button mat-flat-button class="w-full primary-button" (click)="onEditClicked()" *ngIf="course.status === 'Draft'">Edit</button>
+            <button mat-flat-button class="w-full primary-button text-nowrap" (click)="onPriceChangeClicked()" *ngIf="course.status === 'Activated'">Change Price</button>
+            <button mat-flat-button class="w-full primary-button" (click)="onPublishClicked()" *ngIf="course.status === 'Draft'">Publish</button>
+            <button mat-flat-button class="w-full danger-button" (click)="onDeleteClicked()" *ngIf="course.status === 'Draft'">Delete</button>
+            <button mat-flat-button class="w-full danger-button" (click)="onDeactivateClicked()" *ngIf="course.status === 'Activated' || course.status === 'Published'">Deactivate</button>
+        </mat-card-actions>
+    </div>
+</mat-card>
