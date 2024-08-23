@@ -56,8 +56,8 @@ export class ResetPasswordComponent implements OnInit {
       .pipe(
         tap(() => this.messageService.triggerSuccess('Password reset successful.')),
         delay(1000),
-        tap(() => this.router.navigate(['/home'])
-          .then(() => this.modalService.showLoginModal())),
+        tap(() => this.router.navigate(['/home'])),
+        tap(() => this.modalService.showLoginModal()),
         catchError((error: ApiError) => {
           if (error.status === 400) {
             this.messageService.triggerError(error.detail);
