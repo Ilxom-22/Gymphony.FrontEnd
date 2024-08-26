@@ -18,6 +18,8 @@ import { CourseDetails } from '../../courses/interfaces/course-details';
 import { CourseDetailsModalComponent } from '../../courses/components/course-details-modal/course-details-modal.component';
 import { DraftCourse } from '../../courses/interfaces/draft-course';
 import { DraftCourseComponent } from '../../courses/components/draft-course/draft-course.component';
+import { CourseSchedule } from '../../courses/interfaces/course-schedule';
+import { CourseScheduleModalComponent } from '../../courses/components/course-schedule-modal/course-schedule-modal.component';
 
 
 @Injectable({
@@ -106,6 +108,14 @@ export class ModalService {
   public showPriceModal(productId: string, price: number): MatDialogRef<PriceModalComponent, any> {
     const dialogRef = this.dialog.open(PriceModalComponent, {
       data: { productId, price }
+    });
+
+    return dialogRef;
+  }
+
+  public showCourseScheduleModal(courseSchedule: CourseSchedule): MatDialogRef<CourseScheduleModalComponent, any> {
+    const dialogRef = this.dialog.open(CourseScheduleModalComponent, {
+      data: courseSchedule
     });
 
     return dialogRef;

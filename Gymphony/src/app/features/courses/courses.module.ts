@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { CoursesRoutingModule } from './courses-routing.module';
 import { CourseContainerComponent } from './pages/course-container/course-container.component';
@@ -13,6 +11,7 @@ import { AdminCoursesContainerComponent } from './pages/admin-courses-container/
 import { AdminCourseComponent } from './components/admin-course/admin-course.component';
 import { CourseDetailsModalComponent } from './components/course-details-modal/course-details-modal.component';
 import { DraftCourseComponent } from './components/draft-course/draft-course.component';
+import { CourseScheduleModalComponent } from './components/course-schedule-modal/course-schedule-modal.component';
 
 
 @NgModule({
@@ -24,17 +23,13 @@ import { DraftCourseComponent } from './components/draft-course/draft-course.com
     AdminCoursesContainerComponent,
     AdminCourseComponent,
     CourseDetailsModalComponent,
-    DraftCourseComponent
+    DraftCourseComponent,
+    CourseScheduleModalComponent
   ],
   imports: [
     CommonModule,
     CoursesRoutingModule,
-    SharedModule,
-    
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }),
+    SharedModule
   ]
 })
 export class CoursesModule { }

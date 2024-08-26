@@ -1,0 +1,25 @@
+<div class="modal-theme">
+    <h2 mat-dialog-title class="mat-dialog-title">Course Schedule Details</h2>
+    <mat-dialog-content class="mat-dialog-title">
+      <div class="schedule-info">
+        <p><strong>Day:</strong> {{ getWeekday(data.day) }}</p>
+        <p><strong>Start Time:</strong> {{ formatTime(data.startTime) }}</p>
+        <p><strong>End Time:</strong> {{ formatTime(data.endTime) }}</p>
+    
+        @for (instructor of data.instructors; track instructor.id) {
+            <h6>Instructors:</h6>
+            <div class="instructor-info">
+            <img [src]="instructor.profileImage.url" alt="{{ instructor.firstName }} {{ instructor.lastName }}" class="profile-image"/>
+            <div class="instructor-details">
+                <h6>{{ instructor.firstName }} {{ instructor.lastName }}</h6>
+                <p>{{ instructor.bio }}</p>
+            </div>
+            </div>
+        }
+        
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-flat-button mat-dialog-close class="secondary-button">Close</button>
+    </mat-dialog-actions>
+</div>
