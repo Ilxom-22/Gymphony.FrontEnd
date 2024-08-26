@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { tap } from 'rxjs';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { SignUpDetails } from '../../interfaces/sign-up-details.interface';
@@ -10,6 +10,8 @@ import { passwordValidator } from '../../../../shared/validators/password-valida
 import { ModalService } from '../../services/modal.service';
 import { Router } from '@angular/router';
 import { SignInDetails } from '../../interfaces/sign-in-details.interface';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 
 @Component({
@@ -37,7 +39,8 @@ export class RegisterModalComponent {
   constructor(
     private modalService: ModalService, 
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private messageService: MessageService) { }
 
   public onSubmit(): void {
     if (this.registerForm.invalid) {
@@ -45,16 +48,34 @@ export class RegisterModalComponent {
     }
 
     const signUpDetails: SignUpDetails = this.registerForm.value as SignUpDetails;
-      this.authService.signUp(signUpDetails).pipe(
-        tap(() => {
-          const signInDetails: SignInDetails = signUpDetails as SignInDetails;
-          
-          this.authService.signIn(signInDetails).subscribe()
-          this.modalService.closeAllModals();
-          this.router.navigate(['/home']);
-        }),
-      )
-      .subscribe();
+    this.authService.signUp(signUpDetails).pipe(
+      switchMap(() => {
+        const signInDetails: SignInDetails = signUpDetails as SignInDetails;
+        return this.authService.signIn(signInDetails).pipe(
+          tap(() => {
+            this.modalService.closeAllModals();
+            this.router.navigate(['/home']);
+          }),
+          catchError(() => {
+            this.modalService.closeAllModals();
+            this.router.navigate(['/home']).then(() => this.modalService.showLoginModal());
+            this.messageService.triggerSuccess('Registration successful. You can login using the credentials you provided while registering.')
+
+            return EMPTY;
+          })
+        )
+      }),
+      tap(() => this.messageService.triggerSuccess('Registration successful.')),
+      catchError((error: ApiError) => {
+        if (error.status === 400) {
+          this.messageService.triggerError(error.detail);
+        } else {
+          this.messageService.triggerError('An unexpected error occured. Please try again later.')
+        }
+
+        return EMPTY;
+      })
+    ).subscribe();
   }
 
   public openLoginModal(): void {

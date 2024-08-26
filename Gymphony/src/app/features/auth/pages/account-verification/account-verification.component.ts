@@ -13,7 +13,10 @@ export class AccountVerificationComponent implements OnInit {
   verificationStatus?: string;
   isSuccess: boolean = false;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private authService: AuthService,
+    private router: Router) { }
 
   public ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

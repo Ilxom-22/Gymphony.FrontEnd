@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { catchError, delay, EMPTY, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { passwordValidator } from '../../../../shared/validators/password-validator';
 import { PasswordReset } from '../../interfaces/password-reset.interface';
 import { ModalService } from '../../services/modal.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
+import { MessageService } from '../../../../shared/services/message.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -33,7 +35,8 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router, 
     private authService: AuthService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private messageService: MessageService) { }
 
   public ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -51,11 +54,18 @@ export class ResetPasswordComponent implements OnInit {
 
     this.authService.resetPassword(passwordReset)
       .pipe(
-        tap(() => {
-          setTimeout(() => {
-            this.router.navigate(['/home'])
-              .then(() => this.modalService.showLoginModal());
-          }, 5000);
+        tap(() => this.messageService.triggerSuccess('Password reset successful.')),
+        delay(1000),
+        tap(() => this.router.navigate(['/home'])),
+        tap(() => this.modalService.showLoginModal()),
+        catchError((error: ApiError) => {
+          if (error.status === 400) {
+            this.messageService.triggerError(error.detail);
+          } else {
+            this.messageService.triggerError('An unexpected error occured');
+          }
+
+          return EMPTY;
         })
       )
       .subscribe();

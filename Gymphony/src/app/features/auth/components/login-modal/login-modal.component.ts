@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { SignInDetails } from '../../interfaces/sign-in-details.interface';
 import { ModalService } from '../../services/modal.service';
+import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
 
 
 @Component({
@@ -18,7 +20,10 @@ export class LoginModalComponent {
     authData: new FormControl<string>('', [Validators.required, Validators.minLength(8), Validators.maxLength(32)])
   });
 
-  constructor(private modalService: ModalService, private authService: AuthService) { }
+  constructor(
+    private modalService: ModalService, 
+    private authService: AuthService,
+    private messageService: MessageService) { }
 
   public onSubmit(): void {
     if (this.loginForm.invalid) {
@@ -27,7 +32,19 @@ export class LoginModalComponent {
 
     const signInDetails: SignInDetails = this.loginForm.value as SignInDetails;
       this.authService.signIn(signInDetails).pipe(
-        tap(() => this.modalService.closeAllModals()),
+        tap(() => {
+          this.modalService.closeAllModals();
+          this.messageService.triggerSuccess('Login successful.');
+        }),
+        catchError((error: ApiError) => {
+          if (error.status === 400 || 401) {
+            this.messageService.triggerError(error.detail);
+          } else {
+            this.messageService.triggerError('An unexpected error occured. Please try again later.')
+          }
+
+          return EMPTY;
+        })
       )
       .subscribe();
   }
