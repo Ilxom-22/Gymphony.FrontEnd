@@ -7,6 +7,7 @@ import { CourseSubscription } from '../interfaces/course-subscription.interface'
 import { SubscribeForMembershipPlan } from '../../membership-plans/interfaces/subscribe-for-membership-plan';
 import { CheckoutSession } from '../../membership-plans/interfaces/checkout-session';
 import { ApiError } from '../../../core/interfaces/api-error';
+import { SubscribeForCourse } from '../../courses/interfaces/subscribe-for-course';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,13 @@ export class SubscriptionsService {
 
   public subscribeForMembershipPlan(subscribeForMembershipPlan: SubscribeForMembershipPlan): Observable<CheckoutSession> {
     return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-membershipPlan`, subscribeForMembershipPlan)
+      .pipe(
+        catchError((error: HttpErrorResponse) => this.handlerError(error))
+      );
+  }
+
+  public subscribeForCourse(subscribeForCourse: SubscribeForCourse): Observable<CheckoutSession> {
+    return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-course`, subscribeForCourse)
       .pipe(
         catchError((error: HttpErrorResponse) => this.handlerError(error))
       );

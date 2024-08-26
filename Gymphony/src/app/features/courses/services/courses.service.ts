@@ -24,6 +24,11 @@ export class CoursesService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
+  public getCourseById(courseId: string): Observable<Course> {
+    return this.http.get<Course>(`${this.apiUrl}/courses/${courseId}`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
+
   public getAllCourses(): Observable<Courses> {
     return this.http.get<Courses>(`${this.apiUrl}/courses/all`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
