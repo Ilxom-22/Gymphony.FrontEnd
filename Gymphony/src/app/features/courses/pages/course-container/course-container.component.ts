@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
 import { Course } from '../../interfaces/course';
 import { MessageService } from '../../../../shared/services/message.service';
 import { PublicCourses } from '../../interfaces/public-courses';
 import { CoursesService } from '../../services/courses.service';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-course-container',
@@ -17,9 +18,12 @@ export class CourseContainerComponent {
 
   constructor(
     private coursesService: CoursesService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loaderService: LoaderService) { }
 
   public ngOnInit(): void {
+    this.loaderService.show();
+
     this.coursesService.getPublicCourses()
       .pipe(
         tap((courses: PublicCourses) => {
@@ -29,7 +33,8 @@ export class CourseContainerComponent {
         catchError(() => {
           this.messageService.triggerError('An unexpected error occured.');
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       ).subscribe();
   }
 }

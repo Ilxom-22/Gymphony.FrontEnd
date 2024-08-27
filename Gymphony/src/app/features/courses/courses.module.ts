@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { CoursesRoutingModule } from './courses-routing.module';
 import { CourseContainerComponent } from './pages/course-container/course-container.component';
@@ -25,12 +23,7 @@ import { DraftCourseComponent } from './components/draft-course/draft-course.com
   imports: [
     CommonModule,
     CoursesRoutingModule,
-    SharedModule,
-    
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }),
+    SharedModule
   ]
 })
 export class CoursesModule { }
