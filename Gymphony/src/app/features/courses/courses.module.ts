@@ -10,6 +10,8 @@ import { AdminCourseComponent } from './components/admin-course/admin-course.com
 import { CourseDetailsModalComponent } from './components/course-details-modal/course-details-modal.component';
 import { DraftCourseComponent } from './components/draft-course/draft-course.component';
 import { CourseScheduleModalComponent } from './components/course-schedule-modal/course-schedule-modal.component';
+import { CourseSchedulesCalendarComponent } from './components/course-schedules-calendar/course-schedules-calendar.component';
+import { CourseSchedulesComponent } from './pages/course-schedules/course-schedules.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { CourseScheduleModalComponent } from './components/course-schedule-modal
     AdminCourseComponent,
     CourseDetailsModalComponent,
     DraftCourseComponent,
-    CourseScheduleModalComponent
+    CourseSchedulesCalendarComponent,
+    CourseScheduleModalComponent,
+    CourseSchedulesComponent
   ],
   imports: [
     CommonModule,

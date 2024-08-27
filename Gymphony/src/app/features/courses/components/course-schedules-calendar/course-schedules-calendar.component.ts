@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
-import { catchError, EMPTY, tap } from 'rxjs';
-import { Calendar, CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import { CourseSchedule } from '../../interfaces/course-schedule';
-import { CoursesService } from '../../services/courses.service';
-import { MessageService } from '../../../../shared/services/message.service';
 import { ModalService } from '../../../auth/services/modal.service';
 
 @Component({
@@ -50,7 +46,6 @@ export class CourseSchedulesCalendarComponent {
   }
 
   constructor(
-    private messageService: MessageService,
     private modalService: ModalService,
     private cdr: ChangeDetectorRef) { }
 

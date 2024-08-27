@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { loadStripe } from '@stripe/stripe-js';
-import { catchError, EMPTY, filter, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, switchMap, tap } from 'rxjs';
 
 import { MessageService } from '../../../../shared/services/message.service';
 import { CoursesService } from '../../services/courses.service';
@@ -11,9 +11,8 @@ import { CheckoutSession } from '../../../membership-plans/interfaces/checkout-s
 import { SubscribeForCourse } from '../../interfaces/subscribe-for-course';
 import { ApiError } from '../../../../core/interfaces/api-error';
 import { Course } from '../../interfaces/course';
-import { Courses } from '../../interfaces/courses';
 import { PublicCourses } from '../../interfaces/public-courses';
-import { ɵnormalizeQueryParams } from '@angular/common';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-course-schedules',
@@ -34,7 +33,8 @@ export class CourseSchedulesComponent implements OnInit {
     private messageService: MessageService,
     private coursesService: CoursesService,
     private subscriptionsService: SubscriptionsService,
-    private router: Router) { }
+    private router: Router,
+    private loaderService: LoaderService) { }
 
   public ngOnInit(): void {
     this.route.queryParams.pipe(
@@ -95,6 +95,8 @@ export class CourseSchedulesComponent implements OnInit {
       cancelUrl: `http://localhost:4200/payments/payment-failed`
     };
 
+    this.loaderService.show();
+
     this.subscriptionsService.subscribeForCourse(subscribeForCourse).pipe(
       tap((checkoutSession: CheckoutSession) => this.redirectToStripeCheckout(checkoutSession)),
       catchError((error: ApiError) => {
@@ -102,7 +104,8 @@ export class CourseSchedulesComponent implements OnInit {
           this.messageService.triggerError(error.detail);
         }
         return EMPTY;
-      })
+      }),
+      finalize(() => this.loaderService.hide())
     )
     .subscribe();
   }
