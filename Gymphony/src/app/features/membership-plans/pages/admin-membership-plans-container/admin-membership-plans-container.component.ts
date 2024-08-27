@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MembershipPlan } from '../../interfaces/membership-plan';
 import { MembershipPlansService } from '../../services/membership-plans.service';
-import { catchError, EMPTY, filter, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, tap } from 'rxjs';
 import { MembershipPlans } from '../../interfaces/membership-plans';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ModalService } from '../../../auth/services/modal.service';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-admin-membership-plans-container',
@@ -23,9 +24,12 @@ export class AdminMembershipPlansContainerComponent implements OnInit {
   constructor(
     private membershipPlansService: MembershipPlansService,
     private messageService: MessageService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private loaderService: LoaderService) { }
 
   public ngOnInit(): void {
+    this.loaderService.show();
+    
     this.membershipPlansService.getAllMembershipPlans()
       .pipe(
         tap((membershipPlans: MembershipPlans) => {
@@ -39,7 +43,8 @@ export class AdminMembershipPlansContainerComponent implements OnInit {
         catchError(() => {
           this.messageService.triggerError('An unexpected error occured.');
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
   }
