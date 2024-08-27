@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 import { ApiError } from '../../../../core/interfaces/api-error';
 import { MessageService } from '../../../../shared/services/message.service';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 
 @Component({
@@ -21,13 +22,15 @@ export class ForgotPasswordModalComponent {
   constructor(
     private modalService: ModalService,
     private authService: AuthService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loaderService: LoaderService) { }
 
   public onSubmit(): void {
     if (this.emailForm.invalid) {
       return;
     }
 
+    this.loaderService.show();
     this.authService.forgotPassword(this.emailForm.controls['emailAddress'].value)
       .pipe(
         tap(() => {
@@ -42,7 +45,8 @@ export class ForgotPasswordModalComponent {
           }
           
           return EMPTY;
-        })  
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
   }
