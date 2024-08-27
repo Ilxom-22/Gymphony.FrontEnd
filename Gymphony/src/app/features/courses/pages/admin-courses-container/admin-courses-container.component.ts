@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { catchError, EMPTY, filter, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, tap } from 'rxjs';
 
 import { Course } from '../../interfaces/course';
 import { CoursesService } from '../../services/courses.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ModalService } from '../../../auth/services/modal.service';
 import { Courses } from '../../interfaces/courses';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-admin-courses-container',
@@ -24,9 +25,12 @@ export class AdminCoursesContainerComponent {
   constructor(
     private coursesService: CoursesService,
     private messageService: MessageService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private loaderService: LoaderService) { }
 
   public ngOnInit(): void {
+    this.loaderService.show();
+
     this.coursesService.getAllCourses()
       .pipe(
         tap((courses: Courses) => {
@@ -40,7 +44,8 @@ export class AdminCoursesContainerComponent {
         catchError(() => {
           this.messageService.triggerError('An unexpected error occured.');
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
   }
