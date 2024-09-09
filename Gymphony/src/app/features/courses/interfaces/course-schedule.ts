@@ -8,4 +8,5 @@ export interface CourseSchedule {
     endTime: string;
     instructors: Staff[];
     isAvailable: boolean;
+    enrollmentsCount: number;
 }

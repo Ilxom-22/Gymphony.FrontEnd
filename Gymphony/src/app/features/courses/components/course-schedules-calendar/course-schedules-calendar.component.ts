@@ -34,7 +34,6 @@ export class CourseSchedulesCalendarComponent {
         minute: '2-digit',
         hour12: true
       },
-      aspectRatio: 8,
       allDaySlot: false,
       eventTimeFormat: {
         hour: 'numeric',
