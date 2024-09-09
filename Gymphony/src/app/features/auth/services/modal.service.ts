@@ -20,6 +20,7 @@ import { DraftCourse } from '../../courses/interfaces/draft-course';
 import { DraftCourseComponent } from '../../courses/components/draft-course/draft-course.component';
 import { CourseSchedule } from '../../courses/interfaces/course-schedule';
 import { CourseScheduleModalComponent } from '../../courses/components/course-schedule-modal/course-schedule-modal.component';
+import { AddCourseScheduleModalComponent } from '../../courses/components/add-course-schedule-modal/add-course-schedule-modal.component';
 
 
 @Injectable({
@@ -113,9 +114,17 @@ export class ModalService {
     return dialogRef;
   }
 
-  public showCourseScheduleModal(courseSchedule: CourseSchedule): MatDialogRef<CourseScheduleModalComponent, any> {
+  public showCourseScheduleModal(courseSchedule: CourseSchedule, enrollments: number | null = null): MatDialogRef<CourseScheduleModalComponent, any> {
     const dialogRef = this.dialog.open(CourseScheduleModalComponent, {
-      data: courseSchedule
+      data: { schedule: courseSchedule, enrollments: enrollments }
+    });
+
+    return dialogRef;
+  }
+
+  public showCreateCourseScheduleModal(courseId: string, sessionDurationInMinutes: number): MatDialogRef<AddCourseScheduleModalComponent, any> {
+    const dialogRef = this.dialog.open(AddCourseScheduleModalComponent, {
+      data: { courseId, sessionDurationInMinutes }
     });
 
     return dialogRef;
