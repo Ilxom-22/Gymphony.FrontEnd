@@ -12,6 +12,9 @@ import { DraftCourseComponent } from './components/draft-course/draft-course.com
 import { CourseScheduleModalComponent } from './components/course-schedule-modal/course-schedule-modal.component';
 import { CourseSchedulesCalendarComponent } from './components/course-schedules-calendar/course-schedules-calendar.component';
 import { CourseSchedulesComponent } from './pages/course-schedules/course-schedules.component';
+import { CourseSchedulesManagementCalendarComponent } from './components/course-schedules-management-calendar/course-schedules-management-calendar.component';
+import { CourseSchedulesManagementComponent } from './pages/course-schedules-management/course-schedules-management.component';
+import { AddCourseScheduleModalComponent } from './components/add-course-schedule-modal/add-course-schedule-modal.component';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { CourseSchedulesComponent } from './pages/course-schedules/course-schedu
     DraftCourseComponent,
     CourseSchedulesCalendarComponent,
     CourseScheduleModalComponent,
-    CourseSchedulesComponent
+    CourseSchedulesComponent,
+    CourseSchedulesManagementCalendarComponent,
+    CourseSchedulesManagementComponent,
+    AddCourseScheduleModalComponent
   ],
   imports: [
     CommonModule,
