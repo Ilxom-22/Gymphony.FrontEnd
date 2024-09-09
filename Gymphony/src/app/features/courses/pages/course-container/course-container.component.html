@@ -1,0 +1,9 @@
+<div class="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
+    @for(course of activatedCourses; track course.id) {
+        <app-course [course]="course" ></app-course>
+    }
+    
+    @for(course of publishedCourses; track course.id) {
+        <app-course [course]="course" ></app-course>
+    }
+</div>

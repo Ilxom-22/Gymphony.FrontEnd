@@ -86,24 +86,34 @@ export class AuthService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public forgotPassword(emailAddress: string) {
+  public forgotPassword(emailAddress: string): Observable<object> {
     return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resetPassword(passwordReset: PasswordReset) {
+  public resetPassword(passwordReset: PasswordReset): Observable<object> {
     return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public changePassword(changePassword: ChangePassword) {
+  public changePassword(changePassword: ChangePassword): Observable<object> {
     return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resendAccountVerificationEmail(emailAddress: string) {
+  public resendAccountVerificationEmail(emailAddress: string): Observable<object> {
     return this.http.get(`${this.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
+
+  public blockAdmin(adminId: string): Observable<object> {
+    return this.http.put(`${this.apiUrl}/admins/block/${adminId}`, null)
+      .pipe(
+        tap(() => {
+          this.jwtService.clearTokens();
+          this.userService.setUser(null);
+        }),
+        catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   private handlerError(error: HttpErrorResponse) {

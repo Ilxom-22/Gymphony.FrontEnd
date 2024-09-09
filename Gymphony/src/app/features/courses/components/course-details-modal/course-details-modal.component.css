@@ -1,0 +1,11 @@
+.modal-theme {
+    @apply p-2 bg-tertiaryColor;
+}
+
+.mat-dialog-title {
+    @apply text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor text-primaryContentColor;
+}

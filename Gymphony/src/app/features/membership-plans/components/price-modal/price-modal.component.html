@@ -1,0 +1,21 @@
+<div class="modal-theme">
+    <h2 mat-dialog-title class="text-theme">Enter a new price.</h2>
+    <mat-dialog-content>
+        <form [formGroup]="priceForm">
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>New price</mat-label>
+                <input matInput type="number" formControlName="price">
+                <mat-error *ngIf="priceForm.get('price')?.hasError('required')">Price is required and must be non-negative</mat-error>
+                <mat-error *ngIf="priceForm.get('price')?.hasError('priceNotChanged')">Change the price</mat-error>
+                <mat-error *ngIf="priceForm.get('price')?.hasError('priceInvalid')">Price must be greater than 1</mat-error>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <div class="flex justify-between w-full gap-5 mt-5">
+            <button mat-flat-button mat-dialog-close class="w-full secondary-button">Cancel</button>
+            <button mat-flat-button class="w-full primary-button" (click)="submitPrice()" [disabled]="priceForm.invalid">Change Price</button>
+        </div>
+    </mat-dialog-actions>
+</div>

@@ -4,7 +4,7 @@
         <button mat-mini-fab class="absolute bottom-3 left-24 primary-button" (click)="fileInput.click()">
         <mat-icon>edit</mat-icon>
         </button>
-        <input type="file" #fileInput class="hidden" (change)="onFileSelected($event)">
+        <input type="file" #fileInput class="hidden" (change)="onFileSelected($event)" accept="image/*">
         
     </div>
     <h2 class="mt-4 text-primaryContentColor">{{ user.firstName }} {{ user.lastName }}</h2>

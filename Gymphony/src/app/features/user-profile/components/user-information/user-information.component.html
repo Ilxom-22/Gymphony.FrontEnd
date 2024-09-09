@@ -1,19 +1,28 @@
 <mat-card class="mat-card">
   <mat-card-content>
-    <div class="flex flex-col gap-5">
-      <h4 class="text-primaryContentColor">User Information</h4>
+    <div class="flex flex-col gap-3">
+      <div class="flex justify-between">
+        <h4 class="text-primaryContentColor">User Information</h4>
+        <button *ngIf="user.role === 'Member'" 
+          mat-flat-button 
+          class="primary-button"
+          routerLink="/profile/personal-calendar">Personal Calendar</button>
+      </div>
       <p class="text-secondaryContentColor"><strong>Email Address:</strong> {{ user.emailAddress }}</p>
   
-      @if (user.role == 'Admin' && !user.temporaryPasswordChanged) {
+      @if (user.role === 'Admin' && !user.temporaryPasswordChanged) {
         <p class="mt-5 text-dangerColor">Change your temporary password to avoid security risks.</p>
       }
      
       <button mat-flat-button class="{{user.role == 'Admin' && !user.temporaryPasswordChanged ? 'primary-button' : 'secondary-button'}}" (click)="openChangePasswordDialog()">
         Change Password
       </button>
+      <button mat-flat-button *ngIf="user.role === 'Admin'" class="secondary-button" (click)="onBlockMyself()">
+        Block myself
+      </button>
       <button mat-flat-button class="danger-button" (click)="logOut()">
           Log Out
-        </button>
+      </button>
     </div>
   </mat-card-content>
 </mat-card>

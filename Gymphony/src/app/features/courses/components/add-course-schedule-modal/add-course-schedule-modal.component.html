@@ -1,0 +1,41 @@
+<div class="modal-theme">
+  <h2 mat-dialog-title class="text-theme">Create a new Schedule</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="courseScheduleForm">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Day</mat-label>
+        <mat-select formControlName="day" multiple required>
+          <mat-option *ngFor="let day of weekdays" [value]="day">{{ day }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Start Time</mat-label>
+        <input matInput type="time" formControlName="startTime" required>
+      </mat-form-field>
+
+      <!-- End Time will be displayed but not editable -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>End Time (*calculated automatically)</mat-label>
+        <input matInput type="time" [value]="endTime" readonly>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Instructors</mat-label>
+        <mat-select formControlName="instructorsIds" multiple required>
+          <mat-option *ngFor="let instructor of instructors" [value]="instructor.id">
+            {{ instructor.firstName }} {{ instructor.lastName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="flex justify-between w-full">
+      <button mat-flat-button class="secondary-button" mat-dialog-close>Cancel</button>
+      <button mat-flat-button class="{{courseScheduleForm.valid ? 'primary-button': 'secondary-button'}}" (click)="onSubmit()" [disabled]="courseScheduleForm.invalid">Save</button>
+    </div>
+  </mat-dialog-actions>    
+</div>
