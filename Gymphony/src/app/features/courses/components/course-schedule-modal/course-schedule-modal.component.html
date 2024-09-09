@@ -2,12 +2,14 @@
     <h2 mat-dialog-title class="mat-dialog-title">Course Schedule Details</h2>
     <mat-dialog-content class="mat-dialog-title">
       <div class="schedule-info">
-        <p><strong>Day:</strong> {{ getWeekday(data.day) }}</p>
-        <p><strong>Start Time:</strong> {{ formatTime(data.startTime) }}</p>
-        <p><strong>End Time:</strong> {{ formatTime(data.endTime) }}</p>
+        <p><strong>Day:</strong> {{ getWeekday(data.schedule.day) }}</p>
+        <p><strong>Start Time:</strong> {{ formatTime(data.schedule.startTime) }}</p>
+        <p><strong>End Time:</strong> {{ formatTime(data.schedule.endTime) }}</p>
+        <p *ngIf="data.enrollments"><strong>Enrollments:</strong> {{ data.schedule.enrollmentsCount }}</p>
+        <p *ngIf="data.enrollments"><strong>Available space for enrollments:</strong> {{ data.enrollments - data.schedule.enrollmentsCount > 0 ? data.enrollments - data.schedule.enrollmentsCount : 'full' }}</p>
     
-        @for (instructor of data.instructors; track instructor.id) {
-            <h6>Instructors:</h6>
+        <h6>Instructors:</h6>
+        @for (instructor of data.schedule.instructors; track instructor.id) {
             <div class="instructor-info">
             <img [src]="instructor.profileImage.url" alt="{{ instructor.firstName }} {{ instructor.lastName }}" class="profile-image"/>
             <div class="instructor-details">

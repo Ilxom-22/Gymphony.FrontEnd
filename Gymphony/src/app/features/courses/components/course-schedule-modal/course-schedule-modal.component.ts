@@ -8,7 +8,9 @@ import { CourseSchedule } from '../../interfaces/course-schedule';
   styleUrl: './course-schedule-modal.component.css'
 })
 export class CourseScheduleModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: CourseSchedule) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { schedule: CourseSchedule, enrollments: number}) 
+  { }
 
   getWeekday(day: number): string {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
