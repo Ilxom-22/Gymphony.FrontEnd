@@ -49,7 +49,7 @@ export class CoursesService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public createCourse(draftCourse: DraftCourse): Observable<Course> {
+  public createCourse(draftCourse: FormData): Observable<Course> {
     return this.http.post<Course>(`${this.apiUrl}/courses`, draftCourse)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }

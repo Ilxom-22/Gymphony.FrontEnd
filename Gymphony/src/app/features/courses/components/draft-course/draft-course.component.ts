@@ -1,15 +1,15 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
 import { DraftCourse } from '../../interfaces/draft-course';
 import { CoursesService } from '../../services/courses.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { Course } from '../../interfaces/course';
 import { ApiError } from '../../../../core/interfaces/api-error';
-import { FilesService } from '../../../../core/services/files.service';
-import { CourseImage } from '../../../user-profile/interfaces/course-image.interface';
+import { LoaderService } from '../../../../core/services/loader.service';
+
 
 @Component({
   selector: 'app-draft-course',
@@ -26,7 +26,7 @@ export class DraftCourseComponent {
     private dialogRef: MatDialogRef<DraftCourseComponent>,
     private coursesService: CoursesService,
     private messageService: MessageService,
-    private filesService: FilesService,
+    private loaderService: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: DraftCourse | null) { 
       this.isNewCourse = data === null;
       this.course = data !== null 
@@ -71,34 +71,19 @@ export class DraftCourseComponent {
 
     const newCourse = this.courseForm.value as DraftCourse;
     newCourse.courseId = this.course.courseId;
+    const newCourseFormData = this.mapToFormData(newCourse);
 
     if (this.isNewCourse) {
       if (!this.selectedFile) {
         this.messageService.triggerError('Upload course image, please.');
         return;
       }
-      this.coursesService.createCourse(newCourse).pipe(
-        tap((course: Course) => {
-          this.filesService.uploadCourseImage(course.id, this.getFormDataFromSelectedFile())
-            .pipe(
-              tap((courseImage: CourseImage) => {
-                course.image = courseImage;
-                this.dialogRef.close(course);
-                this.messageService.triggerSuccess(`Course - "${newCourse.name}" is created successfully in draft status.`);
-              }),
-              catchError((error: ApiError) => {
-                if (error.status === 400) {
-                  this.messageService.triggerError(error.detail);
-                } else {
-                  this.messageService.triggerError('An unexpected error occured. Please try again later.');
-                  this.dialogRef.close();
-                }
 
-                this.coursesService.deleteCourse(course.id).subscribe();
-                return EMPTY;
-              })
-            )
-            .subscribe();
+      this.loaderService.show();
+      this.coursesService.createCourse(newCourseFormData).pipe(
+        tap((course: Course) => {
+          this.dialogRef.close(course);
+          this.messageService.triggerSuccess(`Course - "${course.name}" is created successfully in draft status.`);
         }),
         catchError((error: ApiError) => {
           if (error.status === 400) {
@@ -108,11 +93,13 @@ export class DraftCourseComponent {
           }
           
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
     }
     else {
+      this.loaderService.show();
       this.coursesService.updateCourse(newCourse).pipe(
         tap((course: Course) => {
           this.dialogRef.close(course);
@@ -126,14 +113,24 @@ export class DraftCourseComponent {
           }
           
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
     }
   }
 
-  private getFormDataFromSelectedFile(): FormData {
+  private mapToFormData(course: DraftCourse): FormData {
     const formData = new FormData();
+    formData.append('courseId', course.courseId);
+    formData.append('name', course.name);
+    formData.append('description', course.description);
+    formData.append('durationUnit', course.durationUnit);
+    formData.append('durationCount', course.durationCount.toString());
+    formData.append('capacity', course.capacity.toString());
+    formData.append('sessionDurationInMinutes', course.sessionDurationInMinutes.toString());
+    formData.append('enrollmentsCountPerWeek', course.enrollmentsCountPerWeek.toString());
+    formData.append('price', course.price.toString());
     formData.append('courseImage', this.selectedFile!);
 
     return formData;
