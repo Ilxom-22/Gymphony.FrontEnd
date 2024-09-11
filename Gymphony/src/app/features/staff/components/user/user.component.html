@@ -1,0 +1,15 @@
+<div class="flex items-center justify-between px-3 py-3 rounded-xl bg-secondaryColor border-[1px] border-secondaryContentColor">
+    <div>
+        <h4 class="text-lg font-semibold text-primaryContentColor">{{ user.firstName }} {{ user.lastName }}</h4>
+        <div class="flex gap-2">
+            <p class="text-secondaryContentColor">{{ user.status }}</p>
+            <p class="text-secondaryContentColor">•</p>
+            <p class="text-secondaryContentColor">{{ user.role }}</p>
+        </div>
+    </div>
+    <div class="flex space-x-2">
+        <button *ngIf="user.role == 'Admin' && user.status == 'Active'" mat-flat-button class="danger-button" (click)="blockAdmin()">Block</button>
+        <button *ngIf="user.role == 'Admin' && user.status == 'Blocked'" mat-flat-button class="primary-button" (click)="unblockAdmin()">Unblock</button>
+        <button mat-flat-button class="danger-button" (click)="remove()">Remove</button>
+    </div>
+</div>
