@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { catchError, EMPTY, tap } from 'rxjs';
 
 import { Staff } from '../../interfaces/staff';
-import { StaffService } from '../../../auth/services/staff.service';
+import { StaffService } from '../../../staff/services/staff.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { CreateCourseSchedule } from '../../interfaces/create-course-schedule';
 
