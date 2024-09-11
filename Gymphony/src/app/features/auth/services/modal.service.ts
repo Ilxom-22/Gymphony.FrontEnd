@@ -21,6 +21,7 @@ import { DraftCourseComponent } from '../../courses/components/draft-course/draf
 import { CourseSchedule } from '../../courses/interfaces/course-schedule';
 import { CourseScheduleModalComponent } from '../../courses/components/course-schedule-modal/course-schedule-modal.component';
 import { AddCourseScheduleModalComponent } from '../../courses/components/add-course-schedule-modal/add-course-schedule-modal.component';
+import { AddAdminModalComponent } from '../../staff/components/add-admin-modal/add-admin-modal.component';
 
 
 @Injectable({
@@ -126,6 +127,12 @@ export class ModalService {
     const dialogRef = this.dialog.open(AddCourseScheduleModalComponent, {
       data: { courseId, sessionDurationInMinutes }
     });
+
+    return dialogRef;
+  }
+
+  public showAddAdminModal(): MatDialogRef<AddAdminModalComponent, any> {
+    const dialogRef = this.dialog.open(AddAdminModalComponent);
 
     return dialogRef;
   }
