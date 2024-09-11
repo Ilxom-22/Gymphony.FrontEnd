@@ -1,0 +1,3 @@
+.add-button {
+    @apply fixed z-20 w-16 h-16 text-3xl rounded-full bottom-3 right-9 text-primaryContentColor bg-accentPrimaryColor;
+}

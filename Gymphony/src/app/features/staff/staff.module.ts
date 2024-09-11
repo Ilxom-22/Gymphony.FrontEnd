@@ -6,13 +6,19 @@ import { AdminsManagementPageComponent } from './pages/admins-management-page/ad
 import { UserComponent } from './components/user/user.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AddAdminModalComponent } from './components/add-admin-modal/add-admin-modal.component';
+import { StaffManagementPageComponent } from './pages/staff-management-page/staff-management-page.component';
+import { StaffComponent } from './components/staff/staff.component';
+import { AddStaffModalComponent } from './components/add-staff-modal/add-staff-modal.component';
 
 
 @NgModule({
   declarations: [
     AdminsManagementPageComponent,
     UserComponent,
-    AddAdminModalComponent
+    AddAdminModalComponent,
+    StaffManagementPageComponent,
+    StaffComponent,
+    AddStaffModalComponent
   ],
   imports: [
     CommonModule,
