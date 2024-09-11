@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { CoursesRoutingModule } from './courses-routing.module';
+import { CourseContainerComponent } from './pages/course-container/course-container.component';
+import { CourseComponent } from './components/course/course.component';
+import { SharedModule } from '../../shared/shared.module';
+import { AdminCoursesContainerComponent } from './pages/admin-courses-container/admin-courses-container.component';
+import { AdminCourseComponent } from './components/admin-course/admin-course.component';
+import { CourseDetailsModalComponent } from './components/course-details-modal/course-details-modal.component';
+import { DraftCourseComponent } from './components/draft-course/draft-course.component';
+
+
+@NgModule({
+  declarations: [
+    CourseContainerComponent,
+    CourseComponent,
+    AdminCoursesContainerComponent,
+    AdminCourseComponent,
+    CourseDetailsModalComponent,
+    DraftCourseComponent
+  ],
+  imports: [
+    CommonModule,
+    CoursesRoutingModule,
+    SharedModule
+  ]
+})
+export class CoursesModule { }

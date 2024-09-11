@@ -19,12 +19,14 @@ import { MatSelectModule } from'@angular/material/select';
 
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { MessageComponent } from './components/message/message.component';
+import { DurationPipe } from './pipes/duration.pipe';
 
 
 @NgModule({
   declarations: [
     ConfirmationModalComponent,
-    MessageComponent
+    MessageComponent,
+    DurationPipe
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { MessageComponent } from './components/message/message.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    DurationPipe
   ]
 })
 export class SharedModule { }
