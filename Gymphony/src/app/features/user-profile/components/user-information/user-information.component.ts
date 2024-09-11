@@ -51,7 +51,7 @@ export class UserInformationComponent {
 
     dialogRef.afterClosed().pipe(
       filter((result: boolean) => result),
-      switchMap(() => this.authService.blockAdmin(this.user.id)),
+      switchMap(() => this.authService.blockMyself(this.user.id)),
       tap(() => this.messageService.triggerSuccess('Your account has been blocked!')),
       catchError((error: ApiError) => {
         if (error.status === 422) {

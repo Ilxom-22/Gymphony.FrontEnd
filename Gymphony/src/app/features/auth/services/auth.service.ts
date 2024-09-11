@@ -106,7 +106,7 @@ export class AuthService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public blockAdmin(adminId: string): Observable<object> {
+  public blockMyself(adminId: string): Observable<object> {
     return this.http.put(`${this.apiUrl}/admins/block/${adminId}`, null)
       .pipe(
         tap(() => {
