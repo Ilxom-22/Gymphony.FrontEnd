@@ -1,0 +1,19 @@
+.modal-theme {
+    @apply p-2 bg-tertiaryColor min-w-[500px];
+}
+
+.text-theme {
+    @apply text-primaryContentColor;
+}
+
+.primary-button {
+    @apply w-full bg-accentPrimaryColor text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply w-full bg-accentSecondaryColor text-primaryContentColor;
+}
+
+mat-error { 
+    @apply text-dangerColor; 
+}

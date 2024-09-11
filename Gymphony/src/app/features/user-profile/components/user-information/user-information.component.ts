@@ -6,6 +6,8 @@ import { User } from '../../../../core/interfaces/user';
 import { AuthService } from '../../../auth/services/auth.service';
 import { ModalService } from '../../../auth/services/modal.service';
 import { MessageService } from '../../../../shared/services/message.service';
+import { ApiError } from '../../../../core/interfaces/api-error';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-user-information',
@@ -16,7 +18,7 @@ export class UserInformationComponent {
   @Input() user!: User;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router, 
     private modalService: ModalService,
     private messageService: MessageService) { }
@@ -42,5 +44,22 @@ export class UserInformationComponent {
 
   public openChangePasswordDialog(): void {
     this.modalService.showChangePasswordModal(this.user);
+  }
+
+  public onBlockMyself(): void {
+    const dialogRef = this.modalService.showConfirmationModal('Are you sure you want to block your own account?', 'Block Account Confirmation');
+
+    dialogRef.afterClosed().pipe(
+      filter((result: boolean) => result),
+      switchMap(() => this.authService.blockAdmin(this.user.id)),
+      tap(() => this.messageService.triggerSuccess('Your account has been blocked!')),
+      catchError((error: ApiError) => {
+        if (error.status === 422) {
+          this.messageService.triggerError(error.detail);
+        }
+        return EMPTY;
+      })
+    )
+    .subscribe();
   }
 }

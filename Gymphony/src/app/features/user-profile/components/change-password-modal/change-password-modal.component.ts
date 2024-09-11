@@ -69,8 +69,4 @@ export class ChangePasswordModalComponent {
     )
     .subscribe();
   }
-
-  public onClose(): void {
-    this.modalService.closeAllModals();
-  }
 }

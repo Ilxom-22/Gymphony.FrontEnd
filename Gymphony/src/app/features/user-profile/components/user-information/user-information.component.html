@@ -11,6 +11,9 @@
       <button mat-flat-button class="{{user.role == 'Admin' && !user.temporaryPasswordChanged ? 'primary-button' : 'secondary-button'}}" (click)="openChangePasswordDialog()">
         Change Password
       </button>
+      <button mat-flat-button *ngIf="user.role === 'Admin'" class="secondary-button" (click)="onBlockMyself()">
+        Block myself
+      </button>
       <button mat-flat-button class="danger-button" (click)="logOut()">
           Log Out
         </button>

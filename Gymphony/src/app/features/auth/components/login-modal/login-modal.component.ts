@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, filter, tap } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { SignInDetails } from '../../interfaces/sign-in-details.interface';
 import { ModalService } from '../../services/modal.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ApiError } from '../../../../core/interfaces/api-error';
+import { User } from '../../../../core/interfaces/user';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +25,8 @@ export class LoginModalComponent {
   constructor(
     private modalService: ModalService, 
     private authService: AuthService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private router: Router) { }
 
   public onSubmit(): void {
     if (this.loginForm.invalid) {
@@ -36,6 +39,8 @@ export class LoginModalComponent {
           this.modalService.closeAllModals();
           this.messageService.triggerSuccess('Login successful.');
         }),
+        filter((user: User | null) => user?.role === 'Admin'),
+        tap(() => this.router.navigate(['/profile'])),
         catchError((error: ApiError) => {
           if (error.status === 400 || 401) {
             this.messageService.triggerError(error.detail);

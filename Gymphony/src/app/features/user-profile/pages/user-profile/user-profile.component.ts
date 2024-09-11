@@ -5,7 +5,6 @@ import { User } from '../../../../core/interfaces/user';
 import { UserService } from '../../../../core/services/user.service';
 
 
-
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -13,6 +12,5 @@ import { UserService } from '../../../../core/services/user.service';
 })
 export class UserProfileComponent {
   private userService = inject(UserService);
-
   public user$: Observable<User | null> = this.userService.user$;
 }
