@@ -1,0 +1,67 @@
+<div class="flex flex-col items-center gap-5 p-6 rounded-lg shadow-lg bg-tertiaryColor">
+    <h5 class="mb-4 text-xl font-semibold text-primaryContentColor">Add new Staff</h5>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" type="text">
+            @if (registerForm.get('firstName')?.hasError('required')) {
+                <mat-error>First Name is required.</mat-error>
+            }
+            @else if (registerForm.get('firstName')?.hasError('nonAlphabetic')) {
+                <mat-error>Enter a valid first name</mat-error>
+            }
+            @else if (registerForm.get('firstName')?.hasError('minlength') || registerForm.get('firstName')?.hasError('maxlength')) {
+                <mat-error>First Name must be between 2 and 64 characters</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" type="text">
+            @if (registerForm.get('lastName')?.hasError('required')) {
+                <mat-error>Last Name is required.</mat-error>
+            }
+            @else if (registerForm.get('lastName')?.hasError('nonAlphabetic')) {
+                <mat-error>Enter a valid last name</mat-error>
+            }
+            @else if (registerForm.get('lastName')?.hasError('minlength') || registerForm.get('lastName')?.hasError('maxlength')) {
+                <mat-error>Last Name must be between 2 and 64 characters</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="emailAddress" type="email">
+            @if (registerForm.get('emailAddress')?.hasError('required')) {
+                <mat-error>Email address is required.</mat-error>
+            }
+            @else if (registerForm.get('emailAddress')?.hasError('email')) {
+                <mat-error>Enter a valid email address.</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Bio</mat-label>
+            <textarea matInput formControlName="bio"></textarea>
+            @if (registerForm.get('bio')?.hasError('required')) {
+                <mat-error>Bio is required.</mat-error>
+            }
+        </mat-form-field>
+
+        <div class="flex items-center justify-between p-4 bg-[#e0e2eb] rounded-lg mb-4">
+            <label class="flex items-center justify-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2 text-blue-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v1.125C3 18.99 4.01 20 5.375 20h13.25C19.99 20 21 18.99 21 17.625V16.5M7.5 12l4.5-4.5m0 0L16.5 12m-4.5-4.5V19.5" />
+                </svg>
+                <span class="text-blue-600">Upload File</span>
+                <input type="file" class="hidden" id="fileInput" (change)="onFileSelected($event)" accept="image/*"/>
+            </label>
+            <span class="ml-4 text-gray-600">{{ selectedFile?.name ? selectedFile?.name : 'No file chosen' }}</span>
+        </div>
+        
+        <div class="flex justify-between gap-4">
+            <button mat-flat-button mat-dialog-close class="secondary-button">Cancel</button>
+            <button mat-flat-button type="submit" class="{{ registerForm.invalid ? 'secondary-button' : 'primary-button'}}" [disabled]="registerForm.invalid">Add</button>
+        </div>
+    </form>
+  </div>

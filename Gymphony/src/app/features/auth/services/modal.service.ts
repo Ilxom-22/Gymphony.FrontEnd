@@ -22,6 +22,7 @@ import { CourseSchedule } from '../../courses/interfaces/course-schedule';
 import { CourseScheduleModalComponent } from '../../courses/components/course-schedule-modal/course-schedule-modal.component';
 import { AddCourseScheduleModalComponent } from '../../courses/components/add-course-schedule-modal/add-course-schedule-modal.component';
 import { AddAdminModalComponent } from '../../staff/components/add-admin-modal/add-admin-modal.component';
+import { AddStaffModalComponent } from '../../staff/components/add-staff-modal/add-staff-modal.component';
 
 
 @Injectable({
@@ -137,6 +138,11 @@ export class ModalService {
     return dialogRef;
   }
 
+  public showAddStaffModal(): MatDialogRef<AddStaffModalComponent, any> {
+    const dialogRef = this.dialog.open(AddStaffModalComponent);
+
+    return dialogRef;
+  }
 
   public closeAllModals(): void {
     this.dialog.closeAll();
