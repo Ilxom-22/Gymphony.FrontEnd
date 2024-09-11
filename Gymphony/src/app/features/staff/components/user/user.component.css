@@ -9,3 +9,11 @@
 .danger-button {
     @apply w-full bg-dangerColor text-primaryContentColor;
 }
+
+.user-info {
+    @apply flex items-center mt-3;
+}
+
+.profile-image {
+    @apply object-cover w-16 h-16 mr-4 rounded-full;
+}

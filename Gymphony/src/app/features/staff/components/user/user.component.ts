@@ -17,6 +17,7 @@ export class UserComponent {
   @Output() userBlocked = new EventEmitter<string>();
   @Output() userUnblocked = new EventEmitter<string>();
   @Output() userRemoved = new EventEmitter<string>();
+  public dropdownOpen: boolean = false;
 
   constructor(
     private modalService: ModalService, 
@@ -79,5 +80,9 @@ export class UserComponent {
         finalize(() => this.loaderService.hide())
       )
       .subscribe();
+  }
+
+  public toggleDropDown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 }
