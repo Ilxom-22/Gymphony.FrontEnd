@@ -71,7 +71,7 @@ export class AuthService {
     return of(null);
   }
 
-  public logout(): Observable<object> {
+  public logout(): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/auth/log-out`, null)
       .pipe(
         tap(() => {
@@ -81,32 +81,32 @@ export class AuthService {
       catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public verifyAccount(token: string): Observable<any> {
+  public verifyAccount(token: string): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } )
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public forgotPassword(emailAddress: string): Observable<object> {
+  public forgotPassword(emailAddress: string): Observable<unknown> {
     return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resetPassword(passwordReset: PasswordReset): Observable<object> {
+  public resetPassword(passwordReset: PasswordReset): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public changePassword(changePassword: ChangePassword): Observable<object> {
+  public changePassword(changePassword: ChangePassword): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public resendAccountVerificationEmail(emailAddress: string): Observable<object> {
+  public resendAccountVerificationEmail(emailAddress: string): Observable<unknown> {
     return this.http.get(`${this.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public blockAdmin(adminId: string): Observable<object> {
+  public blockAdmin(adminId: string): Observable<unknown> {
     return this.http.put(`${this.apiUrl}/admins/block/${adminId}`, null)
       .pipe(
         tap(() => {

@@ -74,7 +74,7 @@ export class CoursesService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
-  public deleteCourse(courseId: string) {
+  public deleteCourse(courseId: string): Observable<unknown> {
     return this.http.delete(`${this.apiUrl}/courses/${courseId}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
