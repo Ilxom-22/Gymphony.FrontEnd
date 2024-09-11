@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
 import { DraftCourse } from '../../interfaces/draft-course';
 import { CoursesService } from '../../services/courses.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { Course } from '../../interfaces/course';
 import { ApiError } from '../../../../core/interfaces/api-error';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class DraftCourseComponent {
     private dialogRef: MatDialogRef<DraftCourseComponent>,
     private coursesService: CoursesService,
     private messageService: MessageService,
+    private loaderService: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: DraftCourse | null) { 
       this.isNewCourse = data === null;
       this.course = data !== null 
@@ -76,6 +78,8 @@ export class DraftCourseComponent {
         this.messageService.triggerError('Upload course image, please.');
         return;
       }
+
+      this.loaderService.show();
       this.coursesService.createCourse(newCourseFormData).pipe(
         tap((course: Course) => {
           this.dialogRef.close(course);
@@ -89,11 +93,13 @@ export class DraftCourseComponent {
           }
           
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
     }
     else {
+      this.loaderService.show();
       this.coursesService.updateCourse(newCourse).pipe(
         tap((course: Course) => {
           this.dialogRef.close(course);
@@ -107,7 +113,8 @@ export class DraftCourseComponent {
           }
           
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       )
       .subscribe();
     }
