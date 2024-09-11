@@ -57,8 +57,7 @@ export class AdminsManagementPageComponent implements OnInit {
     this.modalService.showAddAdminModal()
       .afterClosed().pipe(
         filter((admin: User | null) => admin !== null && typeof(admin) === 'object'),
-        tap((admin: User) => this.admins.push(admin)
-        )
+        tap((admin: User) => this.admins.push(admin))
       )
       .subscribe();
   }

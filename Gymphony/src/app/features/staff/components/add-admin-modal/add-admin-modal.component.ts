@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 
-import { ModalService } from '../../../auth/services/modal.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { SignUpDetails } from '../../../auth/interfaces/sign-up-details.interface';
 import { ApiError } from '../../../../core/interfaces/api-error';
 import { alphabeticValidator } from '../../../../shared/validators/alphabetic-validator';
 import { StaffService } from '../../services/staff.service';
 import { User } from '../../../../core/interfaces/user';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 
 @Component({
@@ -27,12 +27,15 @@ export class AddAdminModalComponent {
   constructor(
     private staffService: StaffService,
     private messageService: MessageService,
+    private loaderService: LoaderService,
     private dialogRef: MatDialogRef<AddAdminModalComponent>) { }
 
   public onSubmit(): void {
     if (this.registerForm.invalid) {
       return;
     }
+
+    this.loaderService.show();
 
     const signUpDetails: SignUpDetails = this.registerForm.value as SignUpDetails;
     signUpDetails.authData = '';
@@ -49,7 +52,8 @@ export class AddAdminModalComponent {
         }
 
         return EMPTY;
-      })
+      }),
+      finalize(() => this.loaderService.hide())
     )
     .subscribe();
   }
