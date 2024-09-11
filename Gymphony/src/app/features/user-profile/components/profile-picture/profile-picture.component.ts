@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { catchError, EMPTY, filter, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, switchMap, tap } from 'rxjs';
 
 import { User } from '../../../../core/interfaces/user';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -9,6 +9,7 @@ import { UserProfileImage } from '../../../../core/interfaces/user-profile-image
 import { FilesService } from '../../../../core/services/files.service';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ApiError } from '../../../../core/interfaces/api-error';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-profile-picture',
@@ -23,7 +24,8 @@ export class ProfilePictureComponent {
     private filesService: FilesService, 
     private userService: UserService,
     private modalService: ModalService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loaderService: LoaderService) { }
 
   public onResendVerificationEmail(): void {
     const dialogRef = this.modalService.showConfirmationModal(`We are going to send a message to the ${this.user.emailAddress} email address with a link for verifiying your account!`, 'Account Verification');
@@ -50,6 +52,7 @@ export class ProfilePictureComponent {
       const formData = new FormData();
       formData.append('profileImage', file);
 
+      this.loaderService.show();
       this.filesService.uploadProfileImage(formData)
         .pipe(
           filter((profileImage: UserProfileImage) => profileImage !== null),
@@ -65,7 +68,8 @@ export class ProfilePictureComponent {
             }
 
             return EMPTY;
-          })
+          }),
+          finalize(() => this.loaderService.hide())
         )
         .subscribe();
     }
