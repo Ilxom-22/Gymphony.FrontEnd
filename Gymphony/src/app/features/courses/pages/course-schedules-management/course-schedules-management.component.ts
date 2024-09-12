@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { catchError, concatMap, EMPTY, filter, finalize, from, merge, mergeMap, Observable, switchMap, tap } from 'rxjs';
+import { catchError, concatMap, EMPTY, filter, finalize, from, Observable, switchMap, tap } from 'rxjs';
 
 import { Course } from '../../interfaces/course';
 import { CourseSchedule } from '../../interfaces/course-schedule';
@@ -81,9 +81,6 @@ export class CourseSchedulesManagementComponent {
     return this.coursesService.getCourseSchedules(courseId).pipe(
       tap((courseSchedules: CourseSchedule[]) => {
         this.courseSchedules = courseSchedules;
-        if (courseSchedules.length === 0) {
-          this.messageService.triggerError('No course schedules added yet.');
-        }
       }),
       catchError(() => {
         this.messageService.triggerError('An unexpected error occurred. Please try again later.');

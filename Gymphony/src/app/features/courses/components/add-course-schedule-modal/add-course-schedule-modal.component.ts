@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 
 import { Staff } from '../../interfaces/staff';
 import { StaffService } from '../../../staff/services/staff.service';
@@ -39,12 +39,11 @@ export class AddCourseScheduleModalComponent {
       catchError(() => {
         this.messageService.triggerError('An unexpected error occured. Please try again later.');
         return EMPTY;
-      })
-    )
-    .subscribe();
-      this.courseScheduleForm.get('startTime')?.valueChanges.subscribe(startTime => {
-      this.calculateEndTime(startTime);
-    });
+      }),
+      switchMap(() => this.courseScheduleForm.get('startTime')!.valueChanges.pipe(
+        tap(startTime => this.calculateEndTime(startTime))
+      ))
+    ).subscribe();
   }
 
   private calculateEndTime(startTime: string): void {
