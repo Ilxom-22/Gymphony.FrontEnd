@@ -22,7 +22,7 @@
                 routerLink="schedules"
                 [queryParams]="{ courseId: course.id, sessions: course.enrollmentsCountPerWeek }" 
                 [disabled]="course.status !== 'Activated'">
-                    {{ course.status === 'Activated' ? 'Enroll Now' : 'Coming Soon' }}
+                    {{ course.status === 'Activated' ? 'See Schedules' : 'Coming Soon' }}
             </button>
         </mat-card-actions>
     </div>

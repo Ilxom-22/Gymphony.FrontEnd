@@ -1,0 +1,7 @@
+.enroll-btn {
+    @apply fixed z-20 bottom-4 right-6 text-primaryContentColor bg-accentPrimaryColor;
+}
+
+.primary-button {
+    @apply bg-accentPrimaryColor text-nowrap;
+}

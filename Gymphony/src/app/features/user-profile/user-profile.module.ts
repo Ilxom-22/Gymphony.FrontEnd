@@ -10,6 +10,8 @@ import { ChangePasswordModalComponent } from './components/change-password-modal
 import { MembershipPlanSubscriptionComponent } from './components/membership-plan-subscription/membership-plan-subscription.component';
 import { CourseSubscriptionsContainerComponent } from './components/course-subscriptions-container/course-subscriptions-container.component';
 import { CourseSubscriptionComponent } from './components/course-subscription/course-subscription.component';
+import { PersonalCalendarComponent } from './pages/personal-calendar/personal-calendar.component';
+import { PersonalSchedulesComponent } from './components/personal-schedules/personal-schedules.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { CourseSubscriptionComponent } from './components/course-subscription/co
     ChangePasswordModalComponent,
     MembershipPlanSubscriptionComponent,
     CourseSubscriptionsContainerComponent,
-    CourseSubscriptionComponent
+    CourseSubscriptionComponent,
+    PersonalCalendarComponent,
+    PersonalSchedulesComponent
   ],
   imports: [
     CommonModule,

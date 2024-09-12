@@ -1,0 +1,32 @@
+
+<div class="flex items-center gap-2 mx-3 mt-3">
+    <div>
+        <button mat-flat-button class="primary-button" [matMenuTriggerFor]="courseMenu">
+            {{ selectedCourseName }}
+            <i class="ml-1 fa-solid fa-chevron-down"></i>
+        </button>
+    </div>
+    
+    <div class="text-primaryContentColor">
+        Schedules
+    </div>
+    
+    <div class="ml-auto text-secondaryContentColor">
+        Please choose <strong class="text-primaryContentColor">{{ course.enrollmentsCountPerWeek }}</strong> schedules that are convenient for you.
+    </div>
+</div>
+
+<mat-menu #courseMenu="matMenu">
+    <button mat-menu-item *ngFor="let course of courses" (click)="selectCourse(course)">
+      {{ course.name }}
+    </button>
+  </mat-menu>
+
+<div>
+    <app-course-schedules-calendar
+         [courseSchedules]="courseSchedules"
+         (scheduleSelected)="onScheduleSelected($event)"
+         (scheduleUnselected)="onScheduleDelselected($event)"></app-course-schedules-calendar>
+</div>
+
+<button mat-flat-button class="enroll-btn" (click)="onEnroll()">Enroll Now</button>

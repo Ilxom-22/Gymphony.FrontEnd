@@ -9,6 +9,7 @@ import { Courses } from '../interfaces/courses';
 import { CourseDetails } from '../interfaces/course-details';
 import { Course } from '../interfaces/course';
 import { DraftCourse } from '../interfaces/draft-course';
+import { CreateCourseSchedule } from '../interfaces/create-course-schedule';
 
 
 @Injectable({
@@ -24,6 +25,11 @@ export class CoursesService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
+  public getCourseById(courseId: string): Observable<Course> {
+    return this.http.get<Course>(`${this.apiUrl}/courses/${courseId}`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
+
   public getAllCourses(): Observable<Courses> {
     return this.http.get<Courses>(`${this.apiUrl}/courses/all`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
@@ -34,6 +40,10 @@ export class CoursesService {
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
+  public getCourseSchedules(courseId: string): Observable<CourseSchedule[]> {
+    return this.http.get<CourseSchedule[]>(`${this.apiUrl}/courseschedules/${courseId}`);
+  }
+
   public getCourseDetails(courseId: string): Observable<CourseDetails> {
     return this.http.get<CourseDetails>(`${this.apiUrl}/courses/course-details/${courseId}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
@@ -41,6 +51,11 @@ export class CoursesService {
 
   public createCourse(draftCourse: FormData): Observable<Course> {
     return this.http.post<Course>(`${this.apiUrl}/courses`, draftCourse)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
+
+  public createCourseSchedule(courseSchedule: CreateCourseSchedule): Observable<CourseSchedule> {
+    return this.http.post<CourseSchedule>(`${this.apiUrl}/courseschedules`, courseSchedule)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
@@ -61,6 +76,11 @@ export class CoursesService {
 
   public deleteCourse(courseId: string): Observable<unknown> {
     return this.http.delete(`${this.apiUrl}/courses/${courseId}`)
+      .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
+  }
+
+  public deleteSchedule(scheduleId: string) {
+    return this.http.delete(`${this.apiUrl}/courseschedules/${scheduleId}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 

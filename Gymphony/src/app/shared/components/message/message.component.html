@@ -4,22 +4,19 @@
       class="w-full max-w-sm p-4 text-white rounded-lg shadow-lg pointer-events-auto"
       [ngClass]="{
         'bg-successColor': messageType === 'success',
-        'bg-dangerColor': messageType === 'error'
+        'bg-dangerColor': messageType === 'error',
       }"
     >
       <div class="flex items-center">
         <i
           [ngClass]="{
             'fa-solid fa-circle-check': messageType === 'success',
-            'fas fa-times-circle': messageType === 'error'
+            'fas fa-times-circle': messageType === 'error',
           }"
           class="mr-3 text-2xl"
         ></i>
-        <span>{{ message }}</span>
+        <div class="whitespace-pre-wrap">{{ message }}</div>
       </div>
     </div>
   </div>
 }
-
-
-  

@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Set the border color of calendar globally */
+:root {
+    --fc-border-color: #b5b5b5;
+}
+
+/* Background color of the calendar */
+.fc {
+    color: #f5f5f5;
+}
+  
+/* Remove current day and now indicator highlights of the calendar */
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+    background-color: transparent;
+}

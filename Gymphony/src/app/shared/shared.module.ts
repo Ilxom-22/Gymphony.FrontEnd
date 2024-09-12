@@ -16,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from'@angular/material/select';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { MessageComponent } from './components/message/message.component';
@@ -45,7 +46,8 @@ import { DurationPipe } from './pipes/duration.pipe';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    FullCalendarModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -65,7 +67,8 @@ import { DurationPipe } from './pipes/duration.pipe';
     MatNativeDateModule,
     MatSelectModule,
     MatOptionModule,
-    DurationPipe
+    DurationPipe,
+    FullCalendarModule
   ]
 })
 export class SharedModule { }

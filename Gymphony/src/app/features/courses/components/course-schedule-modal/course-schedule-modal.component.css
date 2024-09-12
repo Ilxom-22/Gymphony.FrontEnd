@@ -1,0 +1,25 @@
+.modal-theme {
+    @apply p-2 bg-tertiaryColor;
+}
+
+.mat-dialog-title {
+    @apply text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply bg-accentSecondaryColor text-primaryContentColor;
+}
+
+.instructor-info {
+    @apply flex items-center mt-3;
+}
+
+.profile-image {
+    @apply object-cover w-16 h-16 mr-4 rounded-full;
+}
+
+.instructor-details { 
+    @apply flex-1
+}
+
+
