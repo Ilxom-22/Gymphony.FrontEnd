@@ -1,0 +1,48 @@
+<div class="flex flex-col items-center gap-5 p-6 rounded-lg shadow-lg bg-tertiaryColor">
+    <h5 class="mb-4 text-xl font-semibold text-primaryContentColor">Register a new Admin</h5>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" type="text">
+            @if (registerForm.get('firstName')?.hasError('required')) {
+                <mat-error>First Name is required.</mat-error>
+            }
+            @else if (registerForm.get('firstName')?.hasError('nonAlphabetic')) {
+                <mat-error>Enter a valid first name</mat-error>
+            }
+            @else if (registerForm.get('firstName')?.hasError('minlength') || registerForm.get('firstName')?.hasError('maxlength')) {
+                <mat-error>First Name must be between 2 and 64 characters</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" type="text">
+            @if (registerForm.get('lastName')?.hasError('required')) {
+                <mat-error>Last Name is required.</mat-error>
+            }
+            @else if (registerForm.get('lastName')?.hasError('nonAlphabetic')) {
+                <mat-error>Enter a valid last name</mat-error>
+            }
+            @else if (registerForm.get('lastName')?.hasError('minlength') || registerForm.get('lastName')?.hasError('maxlength')) {
+                <mat-error>Last Name must be between 2 and 64 characters</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="emailAddress" type="email">
+            @if (registerForm.get('emailAddress')?.hasError('required')) {
+                <mat-error>Email address is required.</mat-error>
+            }
+            @else if (registerForm.get('emailAddress')?.hasError('email')) {
+                <mat-error>Enter a valid email address.</mat-error>
+            }
+        </mat-form-field>
+        
+        <div class="flex justify-between gap-4">
+            <button mat-flat-button mat-dialog-close class="secondary-button">Cancel</button>
+            <button mat-flat-button type="submit" class="{{ registerForm.invalid ? 'secondary-button' : 'primary-button'}}" [disabled]="registerForm.invalid">Register</button>
+        </div>
+    </form>
+  </div>

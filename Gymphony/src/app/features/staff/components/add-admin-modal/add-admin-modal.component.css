@@ -1,0 +1,11 @@
+.primary-button {
+    @apply w-full bg-accentPrimaryColor text-primaryContentColor;
+}
+
+.secondary-button {
+    @apply w-full bg-accentSecondaryColor text-primaryContentColor;
+}
+
+mat-error { 
+    @apply text-dangerColor; 
+}

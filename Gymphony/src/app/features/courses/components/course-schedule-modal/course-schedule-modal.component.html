@@ -11,11 +11,11 @@
         <h6>Instructors:</h6>
         @for (instructor of data.schedule.instructors; track instructor.id) {
             <div class="instructor-info">
-            <img [src]="instructor.profileImage.url" alt="{{ instructor.firstName }} {{ instructor.lastName }}" class="profile-image"/>
-            <div class="instructor-details">
-                <h6>{{ instructor.firstName }} {{ instructor.lastName }}</h6>
-                <p>{{ instructor.bio }}</p>
-            </div>
+              <img [src]="instructor.profileImage.url" alt="{{ instructor.firstName }} {{ instructor.lastName }}" class="profile-image"/>
+              <div class="instructor-details">
+                  <h6>{{ instructor.firstName }} {{ instructor.lastName }}</h6>
+                  <p>{{ instructor.bio }}</p>
+              </div>
             </div>
         }
         
