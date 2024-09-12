@@ -57,18 +57,16 @@ export class CourseSchedulesManagementCalendarComponent {
   }
 
   private updateEvents(courseSchedules: CourseSchedule[]): void {
-    if (courseSchedules.length <= 0) {
-      return;
+    if (courseSchedules.length > 0) {
+      // Set the start time of the calendar.
+      const startTimes = courseSchedules.map(schedule => schedule.startTime);
+      const startDateTimes = startTimes.map(time => new Date(`1970-01-01T${time}`));
+      const minStartTime = new Date(Math.min(...startDateTimes.map(date => date.getTime())));
+      minStartTime.setHours(minStartTime.getHours() - 1);
+      const slotMinTime = minStartTime.toTimeString().slice(0, 8);
+      this.calendarOptions.slotMinTime = slotMinTime.toString();
     }
 
-    // Set the start time of the calendar.
-    const startTimes = courseSchedules.map(schedule => schedule.startTime);
-    const startDateTimes = startTimes.map(time => new Date(`1970-01-01T${time}`));
-    const minStartTime = new Date(Math.min(...startDateTimes.map(date => date.getTime())));
-    minStartTime.setHours(minStartTime.getHours() - 1);
-    const slotMinTime = minStartTime.toTimeString().slice(0, 8);
-    this.calendarOptions.slotMinTime = slotMinTime.toString();
-   
     // Display course schedules on the calendar.
     this.calendarOptions.events = courseSchedules.map(schedule => ({
       title: `${schedule.instructors[0].firstName} ${schedule.instructors[0].lastName} ...`,
