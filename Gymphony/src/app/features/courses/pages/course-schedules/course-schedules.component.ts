@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { loadStripe } from '@stripe/stripe-js';
-import { catchError, EMPTY, filter, finalize, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, forkJoin, switchMap, tap } from 'rxjs';
 
 import { MessageService } from '../../../../shared/services/message.service';
 import { CoursesService } from '../../services/courses.service';
@@ -43,18 +43,18 @@ export class CourseSchedulesComponent implements OnInit {
         this.courseId = params['courseId'];
         this.sessionsCount = params['sessions'];
       }),
-      switchMap(() => this.coursesService.getCourseById(this.courseId)),
-      tap((course: Course) => {
+      switchMap(() =>
+        forkJoin({
+          course: this.coursesService.getCourseById(this.courseId),
+          courseSchedules: this.coursesService.getActiveCourseSchedules(this.courseId),
+          publicCourses: this.coursesService.getPublicCourses()
+        })
+      ),
+      tap(({ course, courseSchedules, publicCourses }) => {
         this.course = course;
         this.selectedCourseName = course.name;
-      }),
-      switchMap(() => this.coursesService.getActiveCourseSchedules(this.courseId)),
-      tap((courseSchedules: CourseSchedule[]) => {
         this.courseSchedules = courseSchedules;
-      }),
-      switchMap(() => this.coursesService.getPublicCourses()),
-      tap((courses: PublicCourses) => {
-        this.courses = courses.activatedCourses.filter(course => course.id !== this.courseId);
+        this.courses = publicCourses.activatedCourses.filter(c => c.id !== this.courseId);
       }),
       catchError(() => {
         this.messageService.triggerError('An unexpected error occurred. Please try again later.');
