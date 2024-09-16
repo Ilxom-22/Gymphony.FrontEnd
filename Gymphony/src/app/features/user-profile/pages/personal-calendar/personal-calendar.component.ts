@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Course } from '../../interfaces/user-course.interface';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
+
 import { MessageService } from '../../../../shared/services/message.service';
-import { CoursesService } from '../../../courses/services/courses.service';
 import { LoaderService } from '../../../../core/services/loader.service';
-import { ModalService } from '../../../auth/services/modal.service';
 import { MySchedule } from '../../interfaces/my-schedule';
 import { SubscriptionsService } from '../../services/subscriptions.service';
-import { catchError, EMPTY, finalize, tap } from 'rxjs';
+
 
 @Component({
   selector: 'app-personal-calendar',

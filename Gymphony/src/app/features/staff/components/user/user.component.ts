@@ -73,10 +73,6 @@ export class UserComponent {
           this.userRemoved.emit(this.user.id);
           this.messageService.triggerSuccess('Admin removed successfully!');
         }),
-        catchError(() => {
-          this.messageService.triggerError('An unexpected error occured. Please try again later.');
-          return EMPTY;
-        }),
         finalize(() => this.loaderService.hide())
       )
       .subscribe();

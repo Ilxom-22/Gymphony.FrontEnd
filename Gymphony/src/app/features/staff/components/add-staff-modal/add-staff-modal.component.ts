@@ -67,8 +67,6 @@ export class AddStaffModalComponent {
       catchError((error: ApiError) => {
         if (error.status === 400) {
           this.messageService.triggerError(error.detail);
-        } else {
-          this.messageService.triggerError('An unexpected error occured. Please try again later.')
         }
 
         return EMPTY;

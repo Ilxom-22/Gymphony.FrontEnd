@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 import { loadStripe } from '@stripe/stripe-js';
 
 import { MembershipPlan } from '../../interfaces/membership-plan';
@@ -8,6 +8,7 @@ import { SubscriptionsService } from '../../../user-profile/services/subscriptio
 import { SubscribeForMembershipPlan } from '../../interfaces/subscribe-for-membership-plan';
 import { MessageService } from '../../../../shared/services/message.service';
 import { ApiError } from '../../../../core/interfaces/api-error';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-membership-plan',
@@ -20,7 +21,8 @@ export class MembershipPlanComponent {
   
   constructor(
     private subscriptionsService: SubscriptionsService, 
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loaderService: LoaderService) { }
 
   public onSubscribeClicked(): void {
     const checkoutSession: CheckoutSession = {} as CheckoutSession;
@@ -30,6 +32,7 @@ export class MembershipPlanComponent {
       cancelUrl: `http://localhost:4200/payments/payment-failed`
     };
 
+    this.loaderService.show();
     this.subscriptionsService.subscribeForMembershipPlan(subscribeForMembershipPlan)
       .pipe(
         tap((session: CheckoutSession) => {
@@ -42,7 +45,8 @@ export class MembershipPlanComponent {
             this.messageService.triggerError('You already have an active membership plan subscription.');
           }
           return EMPTY;
-        })
+        }),
+        finalize(() => this.loaderService.hide())
       ).subscribe();
   }
 
