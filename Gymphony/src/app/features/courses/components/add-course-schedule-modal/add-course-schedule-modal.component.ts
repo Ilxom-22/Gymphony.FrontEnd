@@ -36,10 +36,6 @@ export class AddCourseScheduleModalComponent {
 
     this.staffService.getAllStaff().pipe(
       tap((staff: Staff[]) => this.instructors = staff),
-      catchError(() => {
-        this.messageService.triggerError('An unexpected error occured. Please try again later.');
-        return EMPTY;
-      }),
       switchMap(() => this.courseScheduleForm.get('startTime')!.valueChanges.pipe(
         tap(startTime => this.calculateEndTime(startTime))
       ))

@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, SimpleChanges } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+
 import { CourseSchedule } from '../../../courses/interfaces/course-schedule';
 import { ModalService } from '../../../auth/services/modal.service';
-import { filter, tap } from 'rxjs';
 import { MySchedule } from '../../interfaces/my-schedule';
 
 @Component({

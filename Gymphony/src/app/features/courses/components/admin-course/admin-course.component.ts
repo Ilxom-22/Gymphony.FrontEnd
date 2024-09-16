@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { catchError, EMPTY, filter, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, switchMap, tap } from 'rxjs';
 import { format } from 'date-fns';
 
 import { CoursesService } from '../../services/courses.service';
@@ -9,6 +9,7 @@ import { Course } from '../../interfaces/course';
 import { CourseDetails } from '../../interfaces/course-details';
 import { CourseMapperService } from '../../services/course-mapper.service';
 import { ApiError } from '../../../../core/interfaces/api-error';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-admin-course',
@@ -26,7 +27,8 @@ export class AdminCourseComponent {
     private coursesService: CoursesService,
     private messageService: MessageService,
     private modalService: ModalService,
-    private courseMapperService: CourseMapperService) { }
+    private courseMapperService: CourseMapperService,
+    private loaderService: LoaderService) { }
 
     public onEditClicked(): void { 
       const dialogRef = this.modalService.showDraftCourse(this.courseMapperService.courseToDraft(this.course));
@@ -71,15 +73,19 @@ export class AdminCourseComponent {
 
     dialogRef.afterClosed().pipe(
       filter((selectedDate: Date | null) => selectedDate !== null && selectedDate instanceof Date),
+      tap(() => this.loaderService.show()),
       switchMap((selectedDate: Date) => this.coursesService.publishCourse(this.course.id, format(selectedDate, 'yyyy-MM-dd'))),
       tap((membershipPlan: Course) => {
         this.coursePublished.emit(membershipPlan);
         this.messageService.triggerSuccess(`Membership course - "${this.course.name}" is published successfully.`)
       }),
-      catchError(() => {
-        this.messageService.triggerError('An unexpected error occured.');
+      catchError((error: ApiError) => {
+        if (error.status === 422) {
+          this.messageService.triggerError('Please add schedules for the course before publishing it.');
+        }
         return EMPTY;
-      })
+      }),
+      finalize(() => this.loaderService.hide())
     )
     .subscribe();
   }
@@ -89,6 +95,7 @@ export class AdminCourseComponent {
 
     dialogref.afterClosed().pipe(
       filter((result: boolean) => result),
+      tap(() => this.loaderService.show()),
       switchMap(() => this.coursesService.deactivateCourse(this.course.id)),
       tap((deactivatedCourse: Course) => {
         console.log('course: ', deactivatedCourse);
@@ -98,7 +105,8 @@ export class AdminCourseComponent {
       catchError(() => {
         this.messageService.triggerError('An unexpected error occured. Please try again later.');
         return EMPTY;
-      })
+      }),
+      finalize(() => this.loaderService.hide())
     )
     .subscribe();
   }

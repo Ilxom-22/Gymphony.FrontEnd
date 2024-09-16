@@ -61,8 +61,6 @@ export class ResetPasswordComponent implements OnInit {
         catchError((error: ApiError) => {
           if (error.status === 400) {
             this.messageService.triggerError(error.detail);
-          } else {
-            this.messageService.triggerError('An unexpected error occured');
           }
 
           return EMPTY;

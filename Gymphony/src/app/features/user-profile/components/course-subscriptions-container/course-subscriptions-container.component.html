@@ -1,8 +1,9 @@
 <div class="flex justify-between">
     <h4 class="text-primaryContentColor">Course Subscriptions</h4>
-    <button mat-flat-button (click)="openBillingPortal()">Billing Portal</button>
+    @if(subscriptions$ | async; as subscriptions) {
+        <button mat-flat-button (click)="openBillingPortal()">Billing Portal</button>
+    }
 </div>
-
 
 @if(subscriptions$ | async; as subscriptions) {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
