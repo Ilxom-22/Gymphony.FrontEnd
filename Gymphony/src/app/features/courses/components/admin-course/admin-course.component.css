@@ -1,0 +1,35 @@
+.course-card {
+    @apply overflow-hidden bg-secondaryColor border-[1px] border-solid rounded-lg shadow-lg border-tertiaryContentColor;
+}
+
+.course-image {
+    @apply object-cover w-full rounded-t-lg;
+}
+
+.course-name {
+    @apply text-2xl font-bold text-primaryContentColor;
+}
+
+.description {
+    @apply text-base text-secondaryContentColor;
+}
+
+.duration, .capacity, .enrollments, .date {
+    @apply my-4 text-base text-primaryContentColor;
+}
+
+.price {
+    @apply my-4 text-xl text-primaryContentColor;
+}
+
+.mat-card-actions {
+    @apply flex justify-center mt-4 mb-2;
+}
+
+button[mat-flat-button] {
+    @apply bg-accentPrimaryColor;
+}
+
+button[mat-flat-button]:disabled {
+    @apply text-primaryContentColor bg-accentSecondaryColor;
+}

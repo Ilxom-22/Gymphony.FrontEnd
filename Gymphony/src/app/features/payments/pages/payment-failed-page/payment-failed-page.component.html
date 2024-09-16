@@ -1,0 +1,22 @@
+<div class="flex items-center justify-center mt-32">
+    <div class="p-6 text-center rounded-lg shadow-lg bg-secondaryColor border-[1px] border-secondaryContentColor">
+        <i class="mb-4 text-5xl text-dangerColor fas fa-times-circle"></i>
+        
+        <h2 class="mb-2 text-2xl font-bold text-primaryContentColor">Payment Failed!</h2>
+        <p class="mb-4 text-dangerColor">
+            Unfortunately, your payment could not be processed.<br />
+            Please try again or contact support if the problem persists.
+        </p>
+        
+        <div class="flex justify-between gap-5 mt-8">
+            <button mat-raised-button class="w-full primary-button" (click)="onMembershipPlansClicked()">
+                Membership Plans
+            </button>
+    
+            <button mat-raised-button class="w-full primary-button" (click)="onCoursesClicked()">
+                Courses
+            </button>
+        </div>
+        
+    </div>
+</div>

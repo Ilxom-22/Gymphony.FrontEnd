@@ -1,0 +1,22 @@
+@if(isVisible && message) {
+  <div class="fixed top-0 left-0 z-[1500] flex items-center justify-center w-full p-4 pointer-events-none mt-12">
+    <div
+      class="w-full max-w-sm p-4 text-white rounded-lg shadow-lg pointer-events-auto"
+      [ngClass]="{
+        'bg-successColor': messageType === 'success',
+        'bg-dangerColor': messageType === 'error',
+      }"
+    >
+      <div class="flex items-center">
+        <i
+          [ngClass]="{
+            'fa-solid fa-circle-check': messageType === 'success',
+            'fas fa-times-circle': messageType === 'error',
+          }"
+          class="mr-3 text-2xl"
+        ></i>
+        <div class="whitespace-pre-wrap">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+}

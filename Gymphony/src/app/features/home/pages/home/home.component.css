@@ -1,0 +1,3 @@
+.primary-button {
+    @apply text-base rounded-lg bg-accentPrimaryColor text-primaryContentColor;
+}

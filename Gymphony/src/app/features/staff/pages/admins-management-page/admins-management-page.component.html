@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-2 p-4">
+    @for (admin of admins; track admin.id) {
+        <app-user 
+            [user]="admin" 
+            (userBlocked)="userBlocked($event)" 
+            (userUnblocked)="userUnblocked($event)" 
+            (userRemoved)="userRemoved($event)"></app-user>
+    }
+</div>
+
+<button mat-flat-button class="add-button"
+    (click)="onAddAdmin()">
+    <i class="fa-regular fa-plus"></i>
+</button>

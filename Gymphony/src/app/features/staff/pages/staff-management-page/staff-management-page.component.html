@@ -1,0 +1,12 @@
+<div class="flex flex-col gap-2 p-4">
+    @for (user of staff; track user.id) {
+        <app-staff 
+            [staff]="user" 
+            (staffRemoved)="userRemoved($event)"></app-staff>
+    }
+</div>
+
+<button mat-flat-button class="add-button"
+    (click)="onAddStaff()">
+    <i class="fa-regular fa-plus"></i>
+</button>

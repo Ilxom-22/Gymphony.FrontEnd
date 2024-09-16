@@ -1,0 +1,34 @@
+<mat-card class="flex flex-col h-full membership-plan-card">
+    <mat-card-header class="flex items-center plan-header">
+        <div class="text-2xl font-bold text-primaryContentColor">{{ plan.name }}</div>
+        <div class="absolute flex items-center justify-center px-2 rounded-lg right-1 top-1"
+             [ngClass]="{
+                'bg-green-500': plan.status === 'Activated',
+                'bg-blue-500': plan.status === 'Published',
+                'bg-yellow-500': plan.status === 'Draft',
+                'bg-red-500': plan.status === 'In-Deactivation',
+                'bg-gray-500': plan.status === 'Deactivated'
+             }">
+            <p class="relative text-sm top-[5px] text-primaryContentColor">{{ plan.status | uppercase }}</p>
+        </div>
+    </mat-card-header>
+    
+    <div class="h-[1px] w-full bg-tertiaryContentColor"></div>
+    
+    <mat-card-content class="flex-grow text-center">
+        <div class="my-4 text-4xl font-bold price">${{ plan.price }}</div>
+        <div class="my-4 text-sm description">{{ plan.description }}</div>
+        <div class="my-4 text-lg duration"><strong>Duration:</strong> {{ plan.durationCount }} {{ plan.durationUnit }}</div>
+        <div *ngIf="plan.activationDate" class="my-4 text-sm duration"><strong>Activation Date:</strong> {{ plan.activationDate | date }}</div>
+        <div *ngIf="plan.deactivationDate" class="my-4 text-sm duration"><strong>Deactivation Date:</strong> {{ plan.deactivationDate | date }}</div>
+    </mat-card-content>
+    
+    <mat-card-actions class="flex justify-between gap-2 mt-4 mb-2">
+        <button mat-flat-button class="w-full primary-button" (click)="onDetailsClicked()">Details</button>
+        <button mat-flat-button class="w-full primary-button" (click)="onEditClicked()" *ngIf="plan.status === 'Draft'">Edit</button>
+        <button mat-flat-button class="w-full primary-button text-nowrap" (click)="onPriceChangeClicked()" *ngIf="plan.status === 'Activated'">Change Price</button>
+        <button mat-flat-button class="w-full primary-button" (click)="onPublishClicked()" *ngIf="plan.status === 'Draft'">Publish</button>
+        <button mat-flat-button class="w-full danger-button" (click)="onDeleteClicked()" *ngIf="plan.status === 'Draft'">Delete</button>
+        <button mat-flat-button class="w-full danger-button" (click)="onDeactivateClicked()" *ngIf="plan.status === 'Activated' || plan.status === 'Published'">Deactivate</button>
+    </mat-card-actions>
+</mat-card>
