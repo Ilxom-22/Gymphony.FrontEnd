@@ -9,39 +9,38 @@ import { CheckoutSession } from '../../membership-plans/interfaces/checkout-sess
 import { ApiError } from '../../../core/interfaces/api-error';
 import { SubscribeForCourse } from '../../courses/interfaces/subscribe-for-course';
 import { MySchedule } from '../interfaces/my-schedule';
+import { ConfigService } from '../../../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubscriptionsService {
-  private apiUrl: string = "https://localhost:7182/api";
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) { }
 
   public getMyMembershipPlanSubscription() : Observable<MembershipPlanSubscription | null> {
-    return this.http.get<MembershipPlanSubscription | null>(`${this.apiUrl}/subscriptions/my-membership-subscription`)
+    return this.http.get<MembershipPlanSubscription | null>(`${this.config.apiUrl}/subscriptions/my-membership-subscription`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public getMyCourseSubscriptions(): Observable<CourseSubscription[] | null> {
-    return this.http.get<CourseSubscription[] | null>(`${this.apiUrl}/subscriptions/my-course-subscriptions`)
+    return this.http.get<CourseSubscription[] | null>(`${this.config.apiUrl}/subscriptions/my-course-subscriptions`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public getMySchedules(): Observable<MySchedule[]> {
-    return this.http.get<MySchedule[]>(`${this.apiUrl}/subscriptions/my-schedules`)
+    return this.http.get<MySchedule[]>(`${this.config.apiUrl}/subscriptions/my-schedules`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public subscribeForMembershipPlan(subscribeForMembershipPlan: SubscribeForMembershipPlan): Observable<CheckoutSession> {
-    return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-membershipPlan`, subscribeForMembershipPlan)
+    return this.http.post<CheckoutSession>(`${this.config.apiUrl}/subscriptions/subscribe-for-membershipPlan`, subscribeForMembershipPlan)
       .pipe(
         catchError((error: HttpErrorResponse) => this.handlerError(error))
       );
   }
 
   public subscribeForCourse(subscribeForCourse: SubscribeForCourse): Observable<CheckoutSession> {
-    return this.http.post<CheckoutSession>(`${this.apiUrl}/subscriptions/subscribe-for-course`, subscribeForCourse)
+    return this.http.post<CheckoutSession>(`${this.config.apiUrl}/subscriptions/subscribe-for-course`, subscribeForCourse)
       .pipe(
         catchError((error: HttpErrorResponse) => this.handlerError(error))
       );

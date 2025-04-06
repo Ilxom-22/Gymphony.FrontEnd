@@ -11,22 +11,21 @@ import { JwtService } from '../../../core/services/jwt.service';
 import { PasswordReset } from '../interfaces/password-reset.interface';
 import { ChangePassword } from '../interfaces/change-password.interface';
 import { ApiError } from '../../../core/interfaces/api-error';
+import { ConfigService } from '../../../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl: string = "https://localhost:7182/api";
-
-  constructor(private http: HttpClient, private userService: UserService, private jwtService: JwtService) { }
+  constructor(private http: HttpClient, private userService: UserService, private jwtService: JwtService, private config: ConfigService) { }
 
   public signUp(signUpDetails: SignUpDetails): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/auth/sign-up-by-email`, signUpDetails)
+    return this.http.post<User>(`${this.config.apiUrl}/auth/sign-up-by-email`, signUpDetails)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public signIn(signInDetails: SignInDetails): Observable<User> {
-    return this.http.post<IdentityToken>(`${this.apiUrl}/auth/sign-in-by-email`, signInDetails)
+    return this.http.post<IdentityToken>(`${this.config.apiUrl}/auth/sign-in-by-email`, signInDetails)
       .pipe(
         tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
         switchMap(() => this.getCurrentLoggedInUser()),
@@ -40,7 +39,7 @@ export class AuthService {
     }
     
     const refreshToken = this.jwtService.getRefreshToken();
-    return this.http.post<IdentityToken>(`${this.apiUrl}/auth/refresh-token`, { refreshToken })
+    return this.http.post<IdentityToken>(`${this.config.apiUrl}/auth/refresh-token`, { refreshToken })
       .pipe(
         tap((identityToken: IdentityToken) => this.jwtService.setTokens(identityToken)),
         switchMap(() => this.getCurrentLoggedInUser()),
@@ -54,7 +53,7 @@ export class AuthService {
   }
 
   public getCurrentLoggedInUser(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/auth/me`)
+    return this.http.get<User>(`${this.config.apiUrl}/auth/me`)
       .pipe(
         tap((user: User) => this.userService.setUser(user)),
         catchError((error: HttpErrorResponse) => this.handlerError(error))
@@ -72,7 +71,7 @@ export class AuthService {
   }
 
   public logout(): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/auth/log-out`, null)
+    return this.http.post(`${this.config.apiUrl}/auth/log-out`, null)
       .pipe(
         tap(() => {
           this.jwtService.clearTokens();
@@ -82,32 +81,32 @@ export class AuthService {
   }
 
   public verifyAccount(token: string): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/auth/verify-email`, { token } )
+    return this.http.post(`${this.config.apiUrl}/auth/verify-email`, { token } )
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public forgotPassword(emailAddress: string): Observable<unknown> {
-    return this.http.get(`${this.apiUrl}/auth/forgot-password/${emailAddress}`)
+    return this.http.get(`${this.config.apiUrl}/auth/forgot-password/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public resetPassword(passwordReset: PasswordReset): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/auth/reset-password`, passwordReset)
+    return this.http.post(`${this.config.apiUrl}/auth/reset-password`, passwordReset)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public changePassword(changePassword: ChangePassword): Observable<unknown> {
-    return this.http.post(`${this.apiUrl}/auth/change-password`, changePassword)
+    return this.http.post(`${this.config.apiUrl}/auth/change-password`, changePassword)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public resendAccountVerificationEmail(emailAddress: string): Observable<unknown> {
-    return this.http.get(`${this.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
+    return this.http.get(`${this.config.apiUrl}/auth/resend-email-verification-message/${emailAddress}`)
       .pipe(catchError((error: HttpErrorResponse) => this.handlerError(error)));
   }
 
   public blockMyself(adminId: string): Observable<unknown> {
-    return this.http.put(`${this.apiUrl}/admins/block/${adminId}`, null)
+    return this.http.put(`${this.config.apiUrl}/admins/block/${adminId}`, null)
       .pipe(
         tap(() => {
           this.jwtService.clearTokens();
